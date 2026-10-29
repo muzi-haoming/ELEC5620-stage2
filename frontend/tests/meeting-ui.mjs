@@ -1,0 +1,33 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+const base=process.env.BASE_URL||'http://127.0.0.1:5623';
+const browser=await chromium.launch({headless:true,channel:'msedge'});
+try {
+ const page=await browser.newPage();const errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ const state=await (await page.request.get(base+'/api/state')).json();
+ const item=state.items.find(i=>i.status==='published');assert.ok(item);
+ await page.goto(base+'/#/seller/listings/new');
+ await page.getByTestId('get-suggested-price').waitFor();
+ assert.equal(await page.getByTestId('suggested-price').innerText(),'—');
+ await page.getByTestId('get-suggested-price').scrollIntoViewIfNeeded();
+ await page.screenshot({path:'.runtime/meeting-price-button.png',fullPage:true});
+ const before=await page.locator('footer span').innerText();
+ await page.waitForTimeout(2200);
+ assert.notEqual(await page.locator('footer span').innerText(),before);
+ const next=await (await page.request.get(base+'/api/state')).json();
+ assert.ok(next.now>state.now+2000);
+ assert.equal(next.demoClock.runId,state.demoClock.runId);
+ await page.goto(base+'/#/buyer/items/'+item.id+'/delivery');
+ const address=page.getByLabel('送货地址',{exact:false});
+ await address.fill('25 Demo Street, Glebe NSW 2037');
+ await page.getByRole('button',{name:'确认配送方案 →',exact:true}).waitFor();
+ await page.waitForFunction(()=>document.querySelector('.delivery-option strong')?.textContent!=='—');
+ const near=await page.locator('.delivery-option strong').allTextContents();
+ await address.fill('20 High Street, Penrith NSW 2750');
+ await page.waitForFunction(()=>document.querySelector('.delivery-option strong')?.textContent!=='—');
+ const far=await page.locator('.delivery-option strong').allTextContents();
+ assert.notDeepEqual(near,far);
+ assert.deepEqual(errors,[]);
+ console.log(JSON.stringify({result:'PASS',clockAdvances:true,runPreserved:true,buttonVisible:true,near,far}));
+} finally {await browser.close();}

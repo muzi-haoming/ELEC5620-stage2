@@ -1,0 +1,46 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({headless:true,channel:"msedge"});
+const page=await browser.newPage();
+const base=process.env.BASE_URL||'http://127.0.0.1:5622';
+let pricingCalls=0;
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+const response=await page.request.get(base+'/api/state',{headers:{'X-Demo-Role':'seller'}});
+assert.equal(response.status(),200);
+const state=await response.json();
+await page.route('**/api/actions',async route=>{
+ const command=route.request().postDataJSON();
+ assert.equal(command.operation,'pricing');pricingCalls++;
+ assert.equal(command.payload.form.material,'fabric');
+ await route.fulfill({json:{state,result:{status:'ready',suggested:450,retrievedAt:'2026-10-23T01:00:00Z',evidence:[{id:'a',url:'https://www.zirkly.com.au/',title:'Used fabric sofa',price:450,matchScore:80,reason:'Similar material',unknowns:['age']}]}}});
+});
+await page.goto(base+'/#/seller/listings/new');
+await page.getByTestId('suggested-price').waitFor();
+assert.equal(await page.getByTestId('suggested-price').innerText(),'—');
+await page.getByLabel('家具名称',{exact:false}).fill('test sofa');
+// Labels wrap inputs in Field; use the declared text label.
+await page.getByLabel('材质', {exact:false}).fill('fabric');
+await page.getByLabel('家具类别',{exact:false}).selectOption('床');
+await page.waitForTimeout(500);
+assert.equal(pricingCalls,0);
+await page.getByRole('button',{name:'获取建议售价',exact:true}).click();
+await page.getByRole('button',{name:'使用参考价格',exact:true}).waitFor();
+assert.equal(pricingCalls,1);
+assert.match(await page.getByTestId('suggested-price').innerText(),/450/);
+await page.getByLabel('家具类别',{exact:false}).selectOption('沙发');
+await page.waitForTimeout(300);
+assert.equal(pricingCalls,1);
+assert.match(await page.getByTestId('suggested-price').innerText(),/450/);
+assert.equal(await page.getByRole('button',{name:'使用参考价格',exact:true}).isDisabled(),true);
+await page.getByRole('button',{name:'EN',exact:true}).click();
+await page.getByRole('button',{name:'Get suggested price',exact:true}).waitFor();
+await page.goto(base+'/#/seller/listings');
+await page.waitForTimeout(300);
+await page.goto(base+'/#/seller/listings/new');
+await page.getByTestId('suggested-price').waitFor();
+assert.equal(await page.getByTestId('suggested-price').innerText(),'—');
+assert.equal(pricingCalls,1);
+assert.deepEqual(errors,[]);
+console.log('PASS: no automatic pricing, explicit request, full attributes, stable value, stale reuse blocked, English switch, new business cleared.');
+await browser.close();
+

@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.jpg binary
+*.png binary
+*.heic binary
+*.heif binary
+frontend/src/translations.mjs whitespace=-blank-at-eol

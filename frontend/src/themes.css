@@ -1,0 +1,134 @@
+/* Role colours are paired foreground/background tokens. Shared public pages keep
+   their original palette; status colours describe outcomes, not user roles. */
+body:has(.shell) {
+  --surface: #ffffff;
+  --success-bg: #edf5e9; --success-text: #36542e; --success-border: #aabd9f;
+  --warning-bg: #fff7e3; --warning-text: #725719; --warning-border: #d3b87b;
+  --danger-bg: #fceee9; --danger-text: #8c382b; --danger-border: #c98779;
+  --overlay: #18181888;
+  background: var(--page); color: var(--ink);
+  --green: var(--accent);
+  --line: var(--border);
+  --muted: var(--muted-text);
+  --role-tint: var(--tint);
+  --role-border: var(--border);
+}
+body:has(.theme-seller) {
+  --page: #f8f7f3; --tint: #f5f5ed; --soft: #e6eddf; --border: #d5ddd2;
+  --ink: #26352e; --muted-text: #58675e; --accent: #214f43;
+  --action: #214f43; --action-text: #ffffff; --action-hover: #173e34;
+  --selected: #214f43; --selected-text: #ffffff;
+  --nav: #f5f5ed; --nav-text: #43564a; --nav-muted: #58675e;
+  --nav-selected: #dfe8da; --nav-selected-text: #214f43; --nav-hover: #e9eee4;
+  --hero: #244f42; --hero-text: #ffffff; --hero-muted: #e0e9db;
+  --highlight: #f9d976; --highlight-text: #26352e; --highlight-hover: #efcd63;
+  --focus: #54765b;
+}
+body:has(.theme-buyer) {
+  --page: #fcf8f4; --tint: #fff5eb; --soft: #fce8d7; --border: #e5d4c5;
+  --ink: #35291f; --muted-text: #705b4c; --accent: #a84216;
+  --action: #ad4618; --action-text: #ffffff; --action-hover: #8d3510;
+  --selected: #ad4618; --selected-text: #ffffff;
+  --nav: #fff5eb; --nav-text: #674832; --nav-muted: #705b4c;
+  --nav-selected: #f9dfc9; --nav-selected-text: #8d3510; --nav-hover: #fcebdd;
+  --hero: #873d1c; --hero-text: #ffffff; --hero-muted: #ffe6d3;
+  --highlight: #f4bd84; --highlight-text: #3e281b; --highlight-hover: #edab69;
+  --focus: #a84216;
+  --success-bg: #fff0e2; --success-text: #8d3510; --success-border: #d6ac8b;
+}
+body:has(.theme-manager) {
+  color-scheme: dark;
+  --page: #151615; --surface: #20211f; --tint: #272821; --soft: #303027; --border: #56503c;
+  --ink: #eee1be; --muted-text: #c4b99c; --accent: #e6ca85;
+  --action: #e5ce96; --action-text: #27231b; --action-hover: #f0dcac;
+  --selected: #e5ce96; --selected-text: #27231b;
+  --nav: #191a18; --nav-text: #eee1be; --nav-muted: #c4b99c;
+  --nav-selected: #e5ce96; --nav-selected-text: #27231b; --nav-hover: #303027;
+  --hero: #191a18; --hero-text: #f1d691; --hero-muted: #d9cba8;
+  --highlight: #e5ce96; --highlight-text: #27231b; --highlight-hover: #f0dcac;
+  --focus: #e6ca85;
+  --success-bg: #303027; --success-text: #eee1be; --success-border: #75633c;
+  --warning-bg: #342b19; --warning-text: #f2d18a; --warning-border: #8b7137;
+  --danger-bg: #382522; --danger-text: #ffb7a8; --danger-border: #a56657;
+}
+
+/* Canvas, surfaces and typography */
+body:has(.shell) .shell, body:has(.shell) .workspace { background: var(--page); color: var(--ink); }
+body:has(.shell) :is(.panel,.furniture-card,.audit,.topbar,.modal) { background: var(--surface); color: var(--ink); border-color: var(--border); }
+body:has(.shell) :is(.panel.sage,.suggestion,.query-summary,.discover-hero,.comparables>div,.status-counts>div,.payment-brand,.execution-details) { background: var(--soft); color: var(--ink); border-color: var(--border); }
+body:has(.shell) :is(.photo-slot,.photo-placeholder,.detail-file-label,.upload-block) { background: var(--tint); color: var(--muted-text); border-color: var(--border); }
+body:has(.shell) .photo { background: var(--tint); }
+body:has(.shell) :is(.field>span,.specs b) { color: var(--ink); }
+body:has(.shell) :is(small,.muted,.eyebrow,.page-head p,.card-body p,.specs span,.discover-hero p,.section-title span,.empty,.item-summary p,.order-row p,.policy-meta,.request-link span,footer,.audit-item time,.audit-item p) { color: var(--muted-text); }
+body:has(.shell) :is(.query-summary b,.breakdown .total b,.big-price,.execution-details summary,.audit summary,details summary) { color: var(--accent); }
+body:has(.shell) :is(.audit-item,hr,th,td,.attention,.compact-list>a,.request-link,footer) { border-color: var(--border); }
+body:has(.shell) th { background: var(--tint); color: var(--ink); }
+body:has(.shell) .card-body .match-reason { background: var(--tint); color: var(--ink); }
+body:has(.shell) .chair-mark { background: var(--highlight); color: var(--highlight-text); }
+
+/* Navigation, including active + hover together */
+body:has(.shell) .sidebar { background: var(--nav); border-color: var(--border); }
+body:has(.shell) .sidebar :is(.brand,nav a,.sidebar-bottom>a) { color: var(--nav-text); }
+body:has(.shell) .sidebar :is(.role-label,.sidebar-bottom p) { color: var(--nav-muted); }
+body:has(.shell) .sidebar nav a:hover { background: var(--nav-hover); color: var(--nav-text); }
+body:has(.shell) .sidebar nav a.active { background: var(--nav-selected); color: var(--nav-selected-text); }
+body:has(.shell) .sidebar :is(a,button):focus-visible { outline-color: var(--highlight); }
+body:has(.shell) .tabs button { background: var(--soft); color: var(--ink); }
+body:has(.shell) .tabs button:hover { background: var(--border); color: var(--ink); }
+body:has(.shell) .tabs button.selected { background: var(--selected); color: var(--selected-text); }
+body:has(.shell) :is(.tabs button,.button) small { color: inherit; }
+body:has(.shell) .language-switch { background: var(--surface); border-color: var(--border); }
+body:has(.shell) .language-switch :is(button,span) { color: var(--muted-text); }
+body:has(.shell) .language-switch button:hover { background: var(--soft); color: var(--ink); }
+body:has(.shell) .language-switch button[aria-pressed=true] { background: var(--selected); color: var(--selected-text); }
+
+/* Buttons must set both foreground and background in every state. */
+body:has(.shell) .button { background: var(--action); color: var(--action-text); border-color: var(--action); transition: box-shadow .15s; }
+body:has(.shell) .button:hover:not(:disabled) { background: var(--action-hover); color: var(--action-text); border-color: var(--action-hover); }
+body:has(.shell) .button.secondary { background: var(--surface); color: var(--accent); border-color: var(--border); }
+body:has(.shell) .button.secondary:hover:not(:disabled) { background: var(--soft); color: var(--accent); border-color: var(--accent); }
+body:has(.shell) .suggestion .pricing-request { background: var(--highlight); color: var(--highlight-text); border-color: var(--highlight); }
+body:has(.shell) .suggestion .pricing-request:hover:not(:disabled) { background: var(--highlight-hover); color: var(--highlight-text); border-color: var(--highlight-hover); }
+body:has(.shell) button:disabled,body:has(.shell) .button[aria-busy=true] { opacity: 1; cursor: not-allowed; }
+body:has(.shell) .button:disabled,
+body:has(.shell) .suggestion .pricing-request:disabled { background: var(--soft); color: var(--muted-text); border-color: var(--border); transition: none; }
+body:has(.shell) .button[aria-busy=true] { cursor: progress; }
+body:has(.shell) .text-button { color: var(--accent); }
+body:has(.shell) .icon-button { color: var(--muted-text); }
+body:has(.shell) .demo-trigger { background: var(--tint); color: var(--accent); border-color: var(--accent); }
+body:has(.shell) .demo-trigger:hover { background: var(--soft); }
+body:has(.shell) :is(button,a,input,select,textarea):focus-visible { outline-color: var(--focus); }
+
+/* Form and selection states */
+body:has(.shell) :is(input,select,textarea) { background: var(--surface); color: var(--ink); border-color: var(--border); }
+body:has(.shell) :is(input,textarea)::placeholder { color: var(--muted-text); opacity: 1; }
+body:has(.shell) input[readonly] { background: var(--tint); }
+body:has(.shell) :is(.photo-slot label,.detail-file-label):focus-within { outline-color: var(--focus); }
+body:has(.shell) .delivery-option.chosen { background: var(--tint); border-color: var(--accent); color: var(--ink); }
+body:has(.shell) .timeline { background: var(--tint); }
+body:has(.shell) .timeline>div { color: var(--muted-text); }
+body:has(.shell) .timeline>div>span { background: var(--border); color: var(--ink); }
+body:has(.shell) .timeline>div.complete { color: var(--accent); }
+body:has(.shell) :is(.avatar,.score,.timeline .complete>span) { background: var(--selected); color: var(--selected-text); }
+
+/* Feedback retains semantic colours; ordinary badges use the current role. */
+body:has(.shell) .badge { background: var(--soft); color: var(--accent); }
+body:has(.shell) .notice { background: var(--tint); color: var(--ink); border-color: var(--border); }
+body:has(.shell) :is(.notice.success) { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
+body:has(.shell) :is(.notice.warning,.badge.warning) { background: var(--warning-bg); color: var(--warning-text); border-color: var(--warning-border); }
+body:has(.shell) :is(.notice.danger,.badge.danger) { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+body:has(.shell) .field-error,body:has(.shell) .detail-thumbs button { color: var(--danger-text); }
+body:has(.shell) :is(.invalid,[aria-invalid=true]) { border-color: var(--danger-border)!important; background: var(--danger-bg); color: var(--danger-text); }
+body:has(.shell) .modal-backdrop { background: var(--overlay); }
+body:has(.shell) :is(.toast,.request-progress) { background: var(--selected); color: var(--selected-text); }
+body:has(.shell) .toast button { color: inherit; }
+
+/* Founder dashboard keeps dark surfaces with readable champagne-gold text. */
+body:has(.shell) .hero-metrics { background: var(--hero); color: var(--hero-text); }
+body:has(.shell) .hero-metrics :is(p,small,div>span) { color: var(--hero-muted); }
+body:has(.shell) .hero-metrics strong { color: var(--hero-text); }
+body:has(.shell) .mini-chart span { background: var(--highlight); }
+.event-facts{border-left:2px solid var(--border);padding:4px 12px;margin:12px 0;color:var(--ink)}
+.event-facts ul{margin:6px 0 12px;padding-left:20px}
+.event-facts li{margin:4px 0}
+.event-facts .text-button{font-size:12px}

@@ -1,0 +1,1293 @@
+{
+  "version": 2,
+  "now": 1792537200000,
+  "items": [
+    {
+      "id": "F-101",
+      "name": "周末时光 · 亚麻沙发",
+      "category": "沙发",
+      "price": 380,
+      "width": 185,
+      "depth": 82,
+      "height": 78,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "双人"
+      ],
+      "suburb": "Newtown",
+      "material": "亚麻混纺",
+      "condition": "优秀",
+      "age": 2,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Newtown",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 380,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-102",
+      "name": "暖阳 · 双人沙发",
+      "category": "沙发",
+      "price": 460,
+      "width": 170,
+      "depth": 80,
+      "height": 76,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "双人"
+      ],
+      "suburb": "Glebe",
+      "material": "亚麻混纺",
+      "condition": "良好",
+      "age": 3,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Glebe",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 460,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-103",
+      "name": "拾光 · 三人沙发",
+      "category": "沙发",
+      "price": 520,
+      "width": 210,
+      "depth": 88,
+      "height": 82,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "三人"
+      ],
+      "suburb": "Redfern",
+      "material": "亚麻混纺",
+      "condition": "优秀",
+      "age": 4,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Redfern",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 520,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-104",
+      "name": "静夜 · 双人床",
+      "category": "床",
+      "price": 320,
+      "width": 150,
+      "depth": 200,
+      "height": 95,
+      "image": "/images/bed.jpg",
+      "tags": [
+        "木质",
+        "双人",
+        "白色"
+      ],
+      "suburb": "Camperdown",
+      "material": "木质",
+      "condition": "良好",
+      "age": 2,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Camperdown",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 320,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/bed.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/bed.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/bed.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-105",
+      "name": "好梦 · 大床",
+      "category": "床",
+      "price": 490,
+      "width": 180,
+      "depth": 210,
+      "height": 100,
+      "image": "/images/bed.jpg",
+      "tags": [
+        "木质",
+        "双人",
+        "白色"
+      ],
+      "suburb": "Ultimo",
+      "material": "木质",
+      "condition": "优秀",
+      "age": 3,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Ultimo",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 490,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/bed.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/bed.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/bed.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-106",
+      "name": "阅读时光 · 单椅",
+      "category": "其他",
+      "price": 160,
+      "width": 72,
+      "depth": 75,
+      "height": 80,
+      "image": "/images/chair.jpg",
+      "tags": [
+        "扶手",
+        "布艺",
+        "单人"
+      ],
+      "suburb": "Surry Hills",
+      "material": "木质 / 织物",
+      "condition": "良好",
+      "age": 4,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Surry Hills",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 160,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/chair.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/chair.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/chair.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-107",
+      "name": "日常 · 实木书桌",
+      "category": "其他",
+      "price": 240,
+      "width": 120,
+      "depth": 65,
+      "height": 75,
+      "image": "/images/table.jpg",
+      "tags": [
+        "木质",
+        "收纳"
+      ],
+      "suburb": "Glebe",
+      "material": "木质 / 织物",
+      "condition": "优秀",
+      "age": 2,
+      "status": "published",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Glebe",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 240,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/table.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/table.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/table.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-0",
+      "name": "周末时光 · 亚麻沙发 · 样例 1",
+      "category": "沙发",
+      "price": 380,
+      "width": 185,
+      "depth": 82,
+      "height": 78,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "双人"
+      ],
+      "suburb": "Newtown",
+      "material": "亚麻混纺",
+      "condition": "优秀",
+      "age": 2,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Newtown",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 380,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-1",
+      "name": "暖阳 · 双人沙发 · 样例 2",
+      "category": "沙发",
+      "price": 460,
+      "width": 170,
+      "depth": 80,
+      "height": 76,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "双人"
+      ],
+      "suburb": "Glebe",
+      "material": "亚麻混纺",
+      "condition": "良好",
+      "age": 3,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Glebe",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 460,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-2",
+      "name": "拾光 · 三人沙发 · 样例 3",
+      "category": "沙发",
+      "price": 520,
+      "width": 210,
+      "depth": 88,
+      "height": 82,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "三人"
+      ],
+      "suburb": "Redfern",
+      "material": "亚麻混纺",
+      "condition": "优秀",
+      "age": 4,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Redfern",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 520,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-3",
+      "name": "静夜 · 双人床 · 样例 4",
+      "category": "床",
+      "price": 320,
+      "width": 150,
+      "depth": 200,
+      "height": 95,
+      "image": "/images/bed.jpg",
+      "tags": [
+        "木质",
+        "双人",
+        "白色"
+      ],
+      "suburb": "Camperdown",
+      "material": "木质",
+      "condition": "良好",
+      "age": 2,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Camperdown",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 320,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/bed.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/bed.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/bed.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-4",
+      "name": "好梦 · 大床 · 样例 5",
+      "category": "床",
+      "price": 490,
+      "width": 180,
+      "depth": 210,
+      "height": 100,
+      "image": "/images/bed.jpg",
+      "tags": [
+        "木质",
+        "双人",
+        "白色"
+      ],
+      "suburb": "Ultimo",
+      "material": "木质",
+      "condition": "优秀",
+      "age": 3,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Ultimo",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 490,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/bed.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/bed.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/bed.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "HIST-PRIOR",
+      "name": "周末时光 · 亚麻沙发",
+      "category": "沙发",
+      "price": 380,
+      "width": 185,
+      "depth": 82,
+      "height": 78,
+      "image": "/images/sofa.jpg",
+      "tags": [
+        "绿色",
+        "布艺",
+        "扶手",
+        "双人"
+      ],
+      "suburb": "Newtown",
+      "material": "亚麻混纺",
+      "condition": "优秀",
+      "age": 2,
+      "status": "sold",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Newtown",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "none",
+      "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+      "suggestion": 380,
+      "evidence": "模拟市场成交数据",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/sofa.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/sofa.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/sofa.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      }
+    },
+    {
+      "id": "F-REJECT",
+      "name": "待修复单椅",
+      "category": "其他",
+      "price": 160,
+      "width": 72,
+      "depth": 75,
+      "height": 80,
+      "image": "/images/chair.jpg",
+      "tags": [
+        "扶手",
+        "布艺",
+        "单人"
+      ],
+      "suburb": "Surry Hills",
+      "material": "木质 / 织物",
+      "condition": "良好",
+      "age": 4,
+      "status": "rejected",
+      "contact": "seller@example.test",
+      "pickup": "18 Demo Street, Surry Hills",
+      "access": "底层，门宽 100 cm，装卸区可用",
+      "moveout": "2026-10-30",
+      "ownership": true,
+      "risk": "结构",
+      "screenReason": "结构风险：椅腿不稳，请修复并更新照片后重新提交。",
+      "suggestion": 160,
+      "evidence": "椅腿不稳",
+      "created": 1791241200000,
+      "photos": {
+        "front": {
+          "ref": "/images/chair.jpg",
+          "name": "front.jpg"
+        },
+        "top": {
+          "ref": "/images/chair.jpg",
+          "name": "top.jpg"
+        },
+        "side": {
+          "ref": "/images/chair.jpg",
+          "name": "side.jpg"
+        },
+        "details": []
+      },
+      "errors": {
+        "risk": "结构风险：椅腿不稳"
+      }
+    }
+  ],
+  "orders": [
+    {
+      "id": "ORD-DEMO-1",
+      "item": {
+        "id": "HIST-0",
+        "name": "周末时光 · 亚麻沙发 · 样例 1",
+        "category": "沙发",
+        "price": 380,
+        "width": 185,
+        "depth": 82,
+        "height": 78,
+        "image": "/images/sofa.jpg",
+        "tags": [
+          "绿色",
+          "布艺",
+          "扶手",
+          "双人"
+        ],
+        "suburb": "Newtown",
+        "material": "亚麻混纺",
+        "condition": "优秀",
+        "age": 2,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Newtown",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 380,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/sofa.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/sofa.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/sofa.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1792450800000,
+      "total": 455,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "pending",
+      "held": true,
+      "paymentKey": "PAY-DEMO-0",
+      "receipt": "R-DEMO-0",
+      "providerAccepted": false,
+      "requests": [
+        {
+          "token": "property-demo-0",
+          "end": "delivery",
+          "address": "25 Demo Road, Glebe NSW",
+          "email": "strata@example.test",
+          "status": "pending"
+        }
+      ],
+      "delivered": null,
+      "windowEnd": 1793055600000,
+      "issue": null,
+      "settledAt": null,
+      "payoutKey": null,
+      "events": [
+        {
+          "time": 1792450800000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        }
+      ]
+    },
+    {
+      "id": "ORD-DEMO-2",
+      "item": {
+        "id": "HIST-1",
+        "name": "暖阳 · 双人沙发 · 样例 2",
+        "category": "沙发",
+        "price": 460,
+        "width": 170,
+        "depth": 80,
+        "height": 76,
+        "image": "/images/sofa.jpg",
+        "tags": [
+          "绿色",
+          "布艺",
+          "扶手",
+          "双人"
+        ],
+        "suburb": "Glebe",
+        "material": "亚麻混纺",
+        "condition": "良好",
+        "age": 3,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Glebe",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 460,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/sofa.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/sofa.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/sofa.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1792364400000,
+      "total": 535,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "transit",
+      "held": true,
+      "paymentKey": "PAY-DEMO-1",
+      "receipt": "R-DEMO-1",
+      "providerAccepted": true,
+      "requests": [],
+      "delivered": null,
+      "windowEnd": 1793055600000,
+      "issue": null,
+      "settledAt": null,
+      "payoutKey": null,
+      "events": [
+        {
+          "time": 1792364400000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        }
+      ]
+    },
+    {
+      "id": "ORD-DEMO-3",
+      "item": {
+        "id": "HIST-2",
+        "name": "拾光 · 三人沙发 · 样例 3",
+        "category": "沙发",
+        "price": 520,
+        "width": 210,
+        "depth": 88,
+        "height": 82,
+        "image": "/images/sofa.jpg",
+        "tags": [
+          "绿色",
+          "布艺",
+          "扶手",
+          "三人"
+        ],
+        "suburb": "Redfern",
+        "material": "亚麻混纺",
+        "condition": "优秀",
+        "age": 4,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Redfern",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 520,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/sofa.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/sofa.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/sofa.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1792278000000,
+      "total": 595,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "received",
+      "held": true,
+      "paymentKey": "PAY-DEMO-2",
+      "receipt": "R-DEMO-2",
+      "providerAccepted": true,
+      "requests": [],
+      "delivered": 1792450800000,
+      "windowEnd": 1793055600000,
+      "issue": null,
+      "settledAt": null,
+      "payoutKey": null,
+      "events": [
+        {
+          "time": 1792278000000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        }
+      ]
+    },
+    {
+      "id": "ORD-DEMO-4",
+      "item": {
+        "id": "HIST-3",
+        "name": "静夜 · 双人床 · 样例 4",
+        "category": "床",
+        "price": 320,
+        "width": 150,
+        "depth": 200,
+        "height": 95,
+        "image": "/images/bed.jpg",
+        "tags": [
+          "木质",
+          "双人",
+          "白色"
+        ],
+        "suburb": "Camperdown",
+        "material": "木质",
+        "condition": "良好",
+        "age": 2,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Camperdown",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 320,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/bed.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/bed.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/bed.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1792191600000,
+      "total": 395,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "settled",
+      "held": false,
+      "paymentKey": "PAY-DEMO-3",
+      "receipt": "R-DEMO-3",
+      "providerAccepted": true,
+      "requests": [],
+      "delivered": 1792450800000,
+      "windowEnd": 1792533600000,
+      "issue": null,
+      "settledAt": 1792537200000,
+      "payoutKey": "OUT-D5393A92",
+      "events": [
+        {
+          "time": 1792191600000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        },
+        {
+          "time": 1792537200000,
+          "agent": "PaymentAgent",
+          "text": "结算完成。卖家 $313.60；物流方 $67.50"
+        }
+      ],
+      "buyerAccepted": 1792533600000,
+      "settlementError": null
+    },
+    {
+      "id": "ORD-DEMO-5",
+      "item": {
+        "id": "HIST-4",
+        "name": "好梦 · 大床 · 样例 5",
+        "category": "床",
+        "price": 490,
+        "width": 180,
+        "depth": 210,
+        "height": 100,
+        "image": "/images/bed.jpg",
+        "tags": [
+          "木质",
+          "双人",
+          "白色"
+        ],
+        "suburb": "Ultimo",
+        "material": "木质",
+        "condition": "优秀",
+        "age": 3,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Ultimo",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 490,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/bed.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/bed.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/bed.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1792105200000,
+      "total": 565,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "settled",
+      "held": false,
+      "paymentKey": "PAY-DEMO-4",
+      "receipt": "R-DEMO-4",
+      "providerAccepted": true,
+      "requests": [],
+      "delivered": 1792450800000,
+      "windowEnd": 1792533600000,
+      "issue": null,
+      "settledAt": 1792450800000,
+      "payoutKey": "OUT-DEMO-4",
+      "events": [
+        {
+          "time": 1792105200000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        }
+      ],
+      "buyerAccepted": 1792533600000
+    },
+    {
+      "id": "ORD-PRIOR",
+      "item": {
+        "id": "HIST-PRIOR",
+        "name": "周末时光 · 亚麻沙发",
+        "category": "沙发",
+        "price": 380,
+        "width": 185,
+        "depth": 82,
+        "height": 78,
+        "image": "/images/sofa.jpg",
+        "tags": [
+          "绿色",
+          "布艺",
+          "扶手",
+          "双人"
+        ],
+        "suburb": "Newtown",
+        "material": "亚麻混纺",
+        "condition": "优秀",
+        "age": 2,
+        "status": "published",
+        "contact": "seller@example.test",
+        "pickup": "18 Demo Street, Newtown",
+        "access": "底层，门宽 100 cm，装卸区可用",
+        "moveout": "2026-10-30",
+        "ownership": true,
+        "risk": "none",
+        "screenReason": "预置样例：资料齐全，无已声明风险。非安全认证。",
+        "suggestion": 380,
+        "evidence": "模拟市场成交数据",
+        "created": 1791241200000,
+        "photos": {
+          "front": {
+            "ref": "/images/sofa.jpg",
+            "name": "front.jpg"
+          },
+          "top": {
+            "ref": "/images/sofa.jpg",
+            "name": "top.jpg"
+          },
+          "side": {
+            "ref": "/images/sofa.jpg",
+            "name": "side.jpg"
+          },
+          "details": []
+        }
+      },
+      "created": 1791500400000,
+      "total": 455,
+      "deliveryFee": 75,
+      "provider": "Sydney Green Movers",
+      "address": "25 Demo Road, Glebe NSW",
+      "status": "settled",
+      "held": false,
+      "paymentKey": "PAY-PRIOR",
+      "receipt": "R-PRIOR",
+      "providerAccepted": true,
+      "requests": [],
+      "delivered": 1792450800000,
+      "windowEnd": 1792533600000,
+      "issue": null,
+      "settledAt": 1791673200000,
+      "payoutKey": "OUT-PRIOR",
+      "events": [
+        {
+          "time": 1792105200000,
+          "agent": "PaymentAgent",
+          "text": "付款完成，订单已创建。"
+        }
+      ],
+      "buyerAccepted": 1792533600000
+    }
+  ],
+  "quotes": [],
+  "audit": [
+    {
+      "id": "EV-DEAF08ED",
+      "time": 1792537200000,
+      "agent": "PaymentAgent",
+      "text": "结算完成。卖家 $313.60；物流方 $67.50",
+      "object": "ORD-DEMO-4"
+    }
+  ],
+  "profile": {
+    "category": "沙发",
+    "budget": 600,
+    "width": 220,
+    "depth": 100,
+    "height": 110,
+    "door": 90,
+    "condition": "良好",
+    "preferences": "绿色，有扶手，双人"
+  },
+  "policies": [
+    {
+      "id": "P-QUOTE",
+      "name": "报价有效期",
+      "rule": "演示报价 15 分钟有效。家具不可售、价格变化或过期时重新报价；同一报价只完成一次付款。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-PAYMENT",
+      "name": "演示付款与标识",
+      "rule": "Visa/Mastercard 或 BPAY 输入后直接模拟通过，不做后台支付验证，不保存付款表单值。BPAY 代码及参考号为演示生成。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-WINDOW",
+      "name": "买家验收",
+      "rule": "物流送达后为已收货；必须由买家验收通过才交易完成，不会因时间经过自动验收。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-ESCALATE",
+      "name": "升级与政策更新",
+      "rule": "证据核对后仍存在不兼容 Agent 结论且无适用政策，才升级经营者。受约束处理方向通过保护检查后自动形成新版本，不追溯改变交易。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-MARKET",
+      "name": "定价证据不足",
+      "rule": "提交页确认有效售价后直接上架，不设待定价阶段。比较数据不足时不编造建议。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-FEE",
+      "name": "费用与固定报价",
+      "version": 1,
+      "rule": "卖家商品服务费 2%；物流方服务费 10%；买家仅支付商品与固定配送报价。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-PAYOUT",
+      "name": "结算保护",
+      "version": 1,
+      "rule": "买家验收通过后立即完成模拟结算；管理员显示已结算，买家和卖家显示交易完成。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-ACCESS",
+      "name": "通行与配送",
+      "version": 1,
+      "rule": "订单创建后为待取货。必要物业回复、最终通行检查、承运接受齐全才可取货。条件不满足时保留待取货并处理异常。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-MATCH",
+      "name": "推荐排序",
+      "version": 1,
+      "rule": "硬约束：类别、预算、空间尺寸、最低成色。文本偏好权重 60%，预算适配 20%，成色 20%；无解析偏好则重新归一化。最多 3 件。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-SCREEN",
+      "name": "家具资料与筛查",
+      "version": 1,
+      "rule": "正面、俯视、侧面照片及家具、取货资料必填。校验或筛查失败统一拒绝上架，保留原因，可修改后重新提交。",
+      "active": true,
+      "created": 1790809200000
+    }
+  ],
+  "exceptions": [
+    {
+      "id": "EX-001",
+      "orderId": "ORD-DEMO-1",
+      "status": "open",
+      "title": "配送条件与固定报价冲突",
+      "a": "LogisticsAgent：原方案受限；替代方案增加 $25。",
+      "b": "PricingAgent：买家已接受的固定总价不可增加。",
+      "evidence": "模拟物业限制记录 + 替代承运报价",
+      "gap": "现有政策未明确额外成本由谁承担。",
+      "created": 1792537200000
+    }
+  ],
+  "lastNotice": "",
+  "legacyArchive": [],
+  "policyArchive": [
+    {
+      "id": "P-QUOTE",
+      "name": "报价有效期",
+      "rule": "演示报价 15 分钟有效。家具不可售、价格变化或过期时重新报价；同一报价只完成一次付款。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-PAYMENT",
+      "name": "演示付款与标识",
+      "rule": "Visa/Mastercard 或 BPAY 输入后直接模拟通过，不做后台支付验证，不保存付款表单值。BPAY 代码及参考号为演示生成。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-WINDOW",
+      "name": "买家验收",
+      "rule": "送达后由买家验收；买家确认前保持已收货，未解决问题阻止结算。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-ESCALATE",
+      "name": "升级与政策更新",
+      "rule": "证据核对后仍存在不兼容 Agent 结论且无适用政策，才升级经营者。受约束处理方向通过保护检查后自动形成新版本，不追溯改变交易。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-MARKET",
+      "name": "定价证据不足",
+      "rule": "市场比较不足或接口失败时不生成有效建议；本演示保守阻止完成价格审核，恢复比较证据后再由卖家确认。",
+      "created": 1790809200000,
+      "active": true,
+      "version": 1
+    },
+    {
+      "id": "P-FEE",
+      "name": "费用与固定报价",
+      "version": 1,
+      "rule": "卖家商品服务费 2%；物流方服务费 10%；买家仅支付商品与固定配送报价。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-PAYOUT",
+      "name": "结算保护",
+      "version": 1,
+      "rule": "支付已留置、配送完成、买家验收通过、无未解决问题才可结算；重试复用标识。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-ACCESS",
+      "name": "通行与配送",
+      "version": 1,
+      "rule": "订单创建后为待取货。必要物业回复、最终通行检查、承运接受齐全才可取货。条件不满足时保留待取货并处理异常。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-MATCH",
+      "name": "推荐排序",
+      "version": 1,
+      "rule": "硬约束：类别、预算、空间尺寸、最低成色。文本偏好权重 60%，预算适配 20%，成色 20%；无解析偏好则重新归一化。最多 3 件。",
+      "active": true,
+      "created": 1790809200000
+    },
+    {
+      "id": "P-SCREEN",
+      "name": "家具资料与筛查",
+      "version": 1,
+      "rule": "照片、家具与取货信息齐全，所有权声明必填；电气、结构、卫生风险拒绝；证据不足要求补充。",
+      "active": true,
+      "created": 1790809200000
+    }
+  ]
+}

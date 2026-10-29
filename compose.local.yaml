@@ -1,0 +1,22 @@
+# Optional local PostgreSQL for development; the base deployment uses DATABASE_URL from .env (Azure).
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: secondspace
+      POSTGRES_DB: secondspace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U secondspace -d secondspace]
+      interval: 5s
+      retries: 12
+  backend:
+    environment:
+      DATABASE_URL: postgresql://secondspace:${POSTGRES_PASSWORD}@postgres:5432/secondspace
+    depends_on:
+      postgres:
+        condition: service_healthy
+volumes:
+  postgres:

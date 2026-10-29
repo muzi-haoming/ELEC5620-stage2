@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: second-space-backend:demo
+    env_file: ${APP_ENV_FILE:-.env}
+    environment:
+      UPLOAD_DIR: /data/uploads
+    volumes:
+      - uploads:/data/uploads
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: second-space-frontend:demo
+    ports:
+      - '127.0.0.1:5623:80'
+    depends_on:
+      backend:
+        condition: service_healthy
+volumes:
+  uploads:
