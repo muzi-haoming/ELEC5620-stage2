@@ -6,6 +6,7 @@ import math
 import re
 import secrets
 from zoneinfo import ZoneInfo
+from . import progress
 from .delivery_pricing import delivery_price
 
 DAY = 86400000
@@ -174,51 +175,57 @@ def recommend(s, p, parsed_tags=None):
 
 
 def create_quote(s, item_id, d):
-    i = find(s['items'], item_id)
-    if i['status'] != 'published':
-        raise BusinessError('该家具已不可售。')
-    if not str(d.get('address') or '').strip() or not number(d.get('door')) > 0 or not number(d.get('doorHeight')) > 0 or not number(d.get('floor')).is_integer() or number(d['floor']) < 0 or d.get('access') not in ['ground', 'lift', 'stairs'] or number(d.get('movers')) not in [2, 3] or any(type(d.get(k + 'Property')) is not bool for k in ['pickup', 'delivery']):
-        raise BusinessError('请完整填写送货信息，并检查门宽、门高、楼层和搬运人数。')
-    if d.get('pickupAccess') is not True or d.get('loading') is not True:
-        raise BusinessError('请确认取货通行条件和送货装卸区可用。')
-    if number(d['door']) < min(i['depth'], i['height']) or number(d['doorHeight']) < max(i['depth'], i['height']):
-        raise BusinessError('门宽或门高不足，请调整配送方案。')
-    for end in ['pickup', 'delivery']:
-        if d[end + 'Property'] and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', str(d.get(end + 'Email', ''))):
-            raise BusinessError('需要物业确认时，请填写该端物业邮箱。')
-    if d.get('provider') not in PROVIDERS:
-        raise BusinessError('请选择配送商。')
-    provider, _, days = PROVIDERS[d['provider']]
-    delivery_pricing=delivery_price(i['pickup'],d['address'],d['provider'])
-    fee=delivery_pricing['price']
-    q = dict(id=uid('Q'), itemId=item_id, itemPrice=i['price'], deliveryFee=fee,
-             total=(cents(i['price']) + cents(fee)) / 100, provider=provider, deliveryPricing=delivery_pricing,
-             expected=business_date(s['now'], days), delivery=deepcopy(d), created=s['now'],
-             expires=s['now'] + 900000, paymentKey=uid('PAY'), biller='009921',
-             reference=str(secrets.randbelow(9000000000) + 1000000000), consumed=False)
+    with progress.step('物流：核对家具可售状态'):
+        i = find(s['items'], item_id)
+        if i['status'] != 'published':
+            raise BusinessError('该家具已不可售。')
+    with progress.step('物流：检查配送资料、门尺寸与装卸条件'):
+        if not str(d.get('address') or '').strip() or not number(d.get('door')) > 0 or not number(d.get('doorHeight')) > 0 or not number(d.get('floor')).is_integer() or number(d['floor']) < 0 or d.get('access') not in ['ground', 'lift', 'stairs'] or number(d.get('movers')) not in [2, 3] or any(type(d.get(k + 'Property')) is not bool for k in ['pickup', 'delivery']):
+            raise BusinessError('请完整填写送货信息，并检查门宽、门高、楼层和搬运人数。')
+        if d.get('pickupAccess') is not True or d.get('loading') is not True:
+            raise BusinessError('请确认取货通行条件和送货装卸区可用。')
+        if number(d['door']) < min(i['depth'], i['height']) or number(d['doorHeight']) < max(i['depth'], i['height']):
+            raise BusinessError('门宽或门高不足，请调整配送方案。')
+    with progress.step('物流：核对两端物业确认资料'):
+        for end in ['pickup', 'delivery']:
+            if d[end + 'Property'] and not re.fullmatch(r'[^\s@]+@[^\s@]+\.[^\s@]+', str(d.get(end + 'Email', ''))):
+                raise BusinessError('需要物业确认时，请填写该端物业邮箱。')
+    with progress.step('物流：计算配送费并准备固定报价'):
+        if d.get('provider') not in PROVIDERS:
+            raise BusinessError('请选择配送商。')
+        provider, _, days = PROVIDERS[d['provider']]
+        delivery_pricing=delivery_price(i['pickup'],d['address'],d['provider'])
+        fee=delivery_pricing['price']
+        q = dict(id=uid('Q'), itemId=item_id, itemPrice=i['price'], deliveryFee=fee,
+                 total=(cents(i['price']) + cents(fee)) / 100, provider=provider, deliveryPricing=delivery_pricing,
+                 expected=business_date(s['now'], days), delivery=deepcopy(d), created=s['now'],
+                 expires=s['now'] + 900000, paymentKey=uid('PAY'), biller='009921',
+                 reference=str(secrets.randbelow(9000000000) + 1000000000), consumed=False)
     s['quotes'].append(q)
     audit(s, 'LogisticsAgent', '初步通行检查完成，创建固定报价 ' + money(q['total']), q['id'])
     return q
 
 
 def purchase(s, quote_id, method):
-    if method not in ['Visa / Mastercard', 'BPAY']:
-        raise BusinessError('请选择付款方式。')
-    q = find(s['quotes'], quote_id)
-    if q['consumed']:
-        return next(o for o in s['orders'] if o.get('quoteId') == quote_id)
-    if q['expires'] <= s['now']:
-        raise BusinessError('报价已过期，请重新确认配送方案。')
-    i = find(s['items'], q['itemId'])
-    if i['status'] != 'published' or i['price'] != q['itemPrice']:
-        raise BusinessError('家具状态或价格变化，请重新获取报价。')
-    d = q['delivery']
-    requests = [dict(token=uid('PROP'), end=end, address=i['pickup'] if end == 'pickup' else d['address'], email=d[end + 'Email'], status='pending') for end in ['pickup', 'delivery'] if d[end + 'Property']]
-    order = dict(id=uid('ORD'), quoteId=q['id'], item=deepcopy(i), total=q['total'], deliveryFee=q['deliveryFee'], provider=q['provider'], expected=q['expected'], address=d['address'], access=deepcopy(d), created=s['now'], status='pending', held=True, providerAccepted=False, paymentKey=q['paymentKey'], receipt=uid('R'), method=method, requests=requests, events=[], issue=None, buyerAccepted=None)
-    q['consumed'] = True
-    i['status'] = 'sold'
-    s['orders'].insert(0, order)
-    event(s, order, 'PaymentAgent', '付款完成，订单已创建，等待取货。', action='purchase', before={}, checks=['付款方式为 Visa/Mastercard 或 BPAY', '报价未使用且未过期', '家具可售且价格与报价一致'])
+    with progress.step('付款：核对付款方式、报价有效期与家具状态'):
+        if method not in ['Visa / Mastercard', 'BPAY']:
+            raise BusinessError('请选择付款方式。')
+        q = find(s['quotes'], quote_id)
+        if q['consumed']:
+            return next(o for o in s['orders'] if o.get('quoteId') == quote_id)
+        if q['expires'] <= s['now']:
+            raise BusinessError('报价已过期，请重新确认配送方案。')
+        i = find(s['items'], q['itemId'])
+        if i['status'] != 'published' or i['price'] != q['itemPrice']:
+            raise BusinessError('家具状态或价格变化，请重新获取报价。')
+    with progress.step('付款：准备模拟留置、订单与收据（等待保存）'):
+        d = q['delivery']
+        requests = [dict(token=uid('PROP'), end=end, address=i['pickup'] if end == 'pickup' else d['address'], email=d[end + 'Email'], status='pending') for end in ['pickup', 'delivery'] if d[end + 'Property']]
+        order = dict(id=uid('ORD'), quoteId=q['id'], item=deepcopy(i), total=q['total'], deliveryFee=q['deliveryFee'], provider=q['provider'], expected=q['expected'], address=d['address'], access=deepcopy(d), created=s['now'], status='pending', held=True, providerAccepted=False, paymentKey=q['paymentKey'], receipt=uid('R'), method=method, requests=requests, events=[], issue=None, buyerAccepted=None)
+        q['consumed'] = True
+        i['status'] = 'sold'
+        s['orders'].insert(0, order)
+        event(s, order, 'PaymentAgent', '付款完成，订单已创建，等待取货。', action='purchase', before={}, checks=['付款方式为 Visa/Mastercard 或 BPAY', '报价未使用且未过期', '家具可售且价格与报价一致'])
     return order
 
 
@@ -242,32 +249,37 @@ def advance(s, order_id, action, payload=None):
     before = event_snapshot(o)
     payload = payload or {}
     if action == 'book':
-        if o['status'] != 'pending' or o['providerAccepted']:
-            raise BusinessError('当前状态不能重复确认。')
-        if any(r['status'] in ['pending', 'rejected'] for r in o['requests']):
-            raise BusinessError('必要物业回复未齐或已拒绝。')
+        with progress.step('物流：核对物业回复与承运前置条件'):
+            if o['status'] != 'pending' or o['providerAccepted']:
+                raise BusinessError('当前状态不能重复确认。')
+            if any(r['status'] in ['pending', 'rejected'] for r in o['requests']):
+                raise BusinessError('必要物业回复未齐或已拒绝。')
         o['providerAccepted'] = True
         event(s, o, 'LogisticsAgent', '最终检查通过，承运方接受，等待取货。', action='book', before=before, checks=['订单待取货且承运方尚未接受', '必要物业申请无待回复或拒绝'])
     elif action == 'pickup':
-        if o['status'] != 'pending' or not o['providerAccepted']:
-            raise BusinessError('取货前须完成最终检查及承运确认。')
+        with progress.step('物流：核对取货状态与承运确认'):
+            if o['status'] != 'pending' or not o['providerAccepted']:
+                raise BusinessError('取货前须完成最终检查及承运确认。')
         o['status'] = 'transit'
         event(s, o, 'LogisticsAgent', '承运方已取货，配送中。', action='pickup', before=before, checks=['订单待取货', '承运方已接受'])
     elif action == 'deliver':
-        if o['status'] != 'transit':
-            raise BusinessError('订单尚未配送。')
+        with progress.step('物流：核对送达前的配送状态'):
+            if o['status'] != 'transit':
+                raise BusinessError('订单尚未配送。')
         o.update(status='received', delivered=s['now'])
         event(s, o, 'LogisticsAgent', '物流送达已记录，等待买家验收。', action='deliver', before=before, checks=['订单正在配送'])
     elif action == 'confirm':
-        if o['status'] == 'settled':
-            return o
-        if o['status'] != 'received' or o.get('issue') or not o.get('delivered') or not o.get('held'):
-            raise BusinessError('当前不能确认收货。')
-        o['buyerAccepted'] = s['now']
-        event(s, o, 'Buyer', '买家验收通过，交易完成。', action='confirm', before=before, checks=['订单已收货且有送达记录', '没有未解决的交付问题', '资金仍处于留置状态'])
-        before = event_snapshot(o)
-        o.update(status='settled', held=False, payoutKey=o.get('payoutKey') or uid('OUT'), settledAt=s['now'])
-        event(s, o, 'PaymentAgent', '结算完成。卖家 ' + money((cents(o['item']['price']) - cents(Decimal(str(o['item']['price'])) * Decimal('.02'))) / 100) + '；物流方 ' + money((cents(o['deliveryFee']) - cents(Decimal(str(o['deliveryFee'])) * Decimal('.1'))) / 100), action='settle', before=before, checks=['同一请求中的买家验收条件已通过'])
+        with progress.step('结算：核对送达记录、交付问题与留置资金'):
+            if o['status'] == 'settled':
+                return o
+            if o['status'] != 'received' or o.get('issue') or not o.get('delivered') or not o.get('held'):
+                raise BusinessError('当前不能确认收货。')
+        with progress.step('结算：记录验收并计算服务费与净额（等待保存）'):
+            o['buyerAccepted'] = s['now']
+            event(s, o, 'Buyer', '买家验收通过，交易完成。', action='confirm', before=before, checks=['订单已收货且有送达记录', '没有未解决的交付问题', '资金仍处于留置状态'])
+            before = event_snapshot(o)
+            o.update(status='settled', held=False, payoutKey=o.get('payoutKey') or uid('OUT'), settledAt=s['now'])
+            event(s, o, 'PaymentAgent', '结算完成。卖家 ' + money((cents(o['item']['price']) - cents(Decimal(str(o['item']['price'])) * Decimal('.02'))) / 100) + '；物流方 ' + money((cents(o['deliveryFee']) - cents(Decimal(str(o['deliveryFee'])) * Decimal('.1'))) / 100), action='settle', before=before, checks=['同一请求中的买家验收条件已通过'])
     elif action == 'issue':
         if o['status'] != 'received' or not payload.get('text', '').strip() or not payload.get('evidence', '').strip():
             raise BusinessError('问题和证据说明都需要填写。')
@@ -283,17 +295,29 @@ def advance(s, order_id, action, payload=None):
     return o
 
 
-def policy_decision(s, case_id, reason):
+# The founder chooses which Agent's position the policy follows. Rule texts are fixed templates;
+# the free-form reason is recorded only. Neither direction raises the buyer's accepted total.
+POLICY_DIRECTIONS = {
+    'pricing': dict(side='PricingAgent',
+                    rule='先请求不提高买家固定总价的可行替代方案；无可行方案时保留待取货并升级处理，不启动退款，不绕过验收和结算。'),
+    'logistics': dict(side='LogisticsAgent',
+                      rule='接受承运方的替代配送方案；买家固定总价不变，额外成本由平台承担（演示中仅记录，不改变实际分账）；仍需承运方确认，不绕过物业确认、验收和结算。'),
+}
+
+
+def policy_decision(s, case_id, reason, direction='pricing'):
     ex = find(s['exceptions'], case_id)
     if ex['status'] != 'open' or not reason.strip():
         raise BusinessError('该案件已处理或处理理由为空。')
+    if direction not in POLICY_DIRECTIONS:
+        raise BusinessError('请选择支持哪一方的处理方向。')
     old = next((p for p in s['policies'] if p['id'] == 'P-EXTRA' and p['active']), None)
     if old:
         old['active'] = False
     p = dict(id='P-EXTRA', name='配送额外成本处理', version=old['version'] + 1 if old else 1,
-             rule='先请求不提高买家固定总价的可行替代方案；无可行方案时保留待取货并升级处理，不启动退款，不绕过验收和结算。',
+             rule=POLICY_DIRECTIONS[direction]['rule'], direction=direction, side=POLICY_DIRECTIONS[direction]['side'],
              active=True, created=s['now'], source=case_id, reason=reason)
     s['policies'].append(p)
-    ex.update(status='resolved', reason=reason, decided=s['now'])
-    audit(s, 'SupervisionAgent', f"政策 {p['id']} v{p['version']} 自动生效。", case_id)
+    ex.update(status='resolved', reason=reason, decided=s['now'], direction=direction)
+    audit(s, 'SupervisionAgent', f"政策 {p['id']} v{p['version']} 自动生效（支持 {p['side']}）。", case_id)
     return p

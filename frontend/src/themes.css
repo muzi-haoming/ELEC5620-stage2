@@ -132,3 +132,77 @@ body:has(.shell) .mini-chart span { background: var(--highlight); }
 .event-facts ul{margin:6px 0 12px;padding-left:20px}
 .event-facts li{margin:4px 0}
 .event-facts .text-button{font-size:12px}
+/* "Not approved" seller tab: reddish tint, solid red when selected */
+body:has(.shell) .tabs button.tab-danger { background: var(--danger-bg); color: var(--danger-text); }
+body:has(.shell) .tabs button.tab-danger:hover { background: var(--danger-border); color: var(--danger-text); }
+body:has(.shell) .tabs button.tab-danger.selected { background: var(--danger-text); color: #fff; }
+/* Error notices stay red in every role theme (including the dark manager theme) */
+body .toast.toast-error, body:has(.shell) .toast.toast-error { background: #b23a2b; color: #fff; }
+/* Completed listings: neutral grey status badge */
+body:has(.shell) .badge.muted { background: #ecebe7; color: #6f6f69; }
+body:has(.theme-manager) .badge.muted { background: #2c2c29; color: #b9b5a8; }
+
+/* Buyer payment confirmation uses green independently of the role palette. */
+body:has(.theme-buyer) .notice.payment-held {
+  background: #218739;
+  color: #ffffff;
+  border-color: #218739;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Buyer delivery actions. */
+body:has(.theme-buyer) .button.delivery-confirm {
+  background: #f2cf70;
+  border-color: #dfbc5d;
+  color: #000000;
+}
+body:has(.theme-buyer) .button.delivery-confirm:hover:not(:disabled) {
+  background: #e8c361;
+  border-color: #d5af4e;
+  color: #000000;
+}
+body:has(.theme-buyer) .button.delivery-report,
+body:has(.theme-buyer) .button.delivery-report:hover:not(:disabled) {
+  background: #ffffff;
+  border-color: var(--border);
+  color: #000000;
+}
+
+/* Keep the confirmed payment label readable after disabling repeat submission. */
+body:has(.theme-buyer) .button.payment-confirmed:disabled {
+  background: var(--action);
+  color: var(--action-text);
+  border-color: var(--action);
+  cursor: default;
+}
+
+/* Publication feedback is centred above the seller's gallery, not fixed to the viewport. */
+body:has(.theme-seller) .listing-published-notice {
+  position: relative;
+  width: fit-content;
+  min-width: 210px;
+  max-width: 100%;
+  margin: 0 auto 18px;
+  padding: 12px 40px;
+  border: 1px solid #6b9c7d;
+  border-radius: 8px;
+  background: #76a58a;
+  color: #ffffff;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px #285c3b14;
+}
+body:has(.theme-seller) .listing-published-notice button {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  padding: 2px 6px;
+  font-size: 20px;
+  cursor: pointer;
+}

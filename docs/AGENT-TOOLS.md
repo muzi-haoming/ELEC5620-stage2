@@ -1,27 +1,54 @@
-# Model-selected tools (2026-10-29)
+# Agent 工具协作：当前实现（2026-10-29）
 
-Live mode now uses campus-qwen to choose tools inside LangGraph specialist nodes. The campus service was verified with our schema-validated JSON selection protocol; this is not native OpenAI function calling. Each selection is a real model request. LangChain StructuredTool executes only allowlisted request-bound functions. Model text never becomes Python, SQL, a payment amount, a URL, or a different order identifier.
+本版本按用户确认的①—⑤实施，取代原来的固定查询顺序和摘要型物流／付款节点。
 
-## Tools and handoffs
+## 模型如何调用工具
 
-- SupervisionAgent: read current policies, delegate to a permitted specialist, request policy direction where the existing conflict rules require it, finish a completed proposal.
-- ListingAgent: inspect request, read policy, validate listing fields and review photos (existing visual assessment uses campus-qwen; explicit demo photos remain labelled as demo checks).
-- PricingAgent: inspect request/read policy, search public market sources, then estimate from retrieved comparables and submitted attributes. The estimate tool is unavailable before search. Photo assessment remains a prerequisite. Unavailable data never becomes a fabricated price.
-- MatchingAgent: parse preferences using campus-qwen when text is supplied, run hard filtering and ranking as a tool. Removed keyword fallback after model error/empty response.
-- LogisticsAgent: inspect order/policy; validate and prepare the requested quote, building reply, carrier acceptance, pickup or delivery against a copy of current state.
-- PaymentAgent: validate and prepare simulated purchase or buyer acceptance plus settlement. A delivery event does not visit PaymentAgent merely because the old fixed route included it.
-- AuditReportingAgent: read exact database-derived report totals; never generate financial figures with the model.
+`agent_tools.run_tools` 使用现有 campus-qwen JSON 接口，让模型从本次操作当前允许的工具名称中选择下一步；通过 Pydantic 校验后，执行对应的请求绑定函数。这是结构化工具选择，不宣称上游提供原生 function calling。
 
-Tools have no model-controlled arguments: the selected demo role and validated action payload bind their scope. The planner chooses which allowed tool to call and receives structured observations. Tools cannot replace the requested action or bypass prerequisite tools. Role boundaries, operation authorization, finite loops, and live transactional guards remain enforced by code. This is bounded agent autonomy, not an unrestricted general-purpose agent.
+工具选择输出预算读取 `MODEL_MAX_OUTPUT_TOKENS`（默认 2048），并要求只返回简短 tool/reason JSON；不再单独固定为 384。
 
-## Commit and failure policy
+模型不能提供 Python、SQL、任意 URL、金额、其他订单编号或新的业务动作。工具权限、依赖、单次调用、最大步骤及请求期限均由代码控制。live 模式下模型不可用、选择非法或超出预算会停止本次操作；不会静默改用 fixture。fixture 只用于明确配置的离线演示和测试，每条选择记录标明 fixture。
 
-State-changing tools prepare a validated proposal on a snapshot; they do not mutate production state. After the model finishes, the existing database transaction checks current inventory/order/quote state again and applies the requested effect atomically. Unique command receipts and settlement constraints remain authoritative. Retrying a completed command does not pay twice.
+## 各 Agent
 
-Any failed/invalid planner call, unavailable required visual/preference call, invalid tool choice or exhausted budget aborts before commit with HTTP 503 and retryable=true. The seller/buyer form stays mounted with its entries. The frontend retains existing loading/retry interaction. There is no rule fallback in live mode. The per-action model workflow has a 150-second budget below the 180-second proxy timeout; late completion is rejected before commit. Human policy replies refresh their snapshot/budget.
+| Agent | 当前工作方式 |
+|---|---|
+| ListingAgent | 保留原资料规则、照片审核、宽松提示及审核缓存，不新增工具规划 |
+| MatchingAgent | 保留原偏好提取、硬过滤和排序，不修改权重 |
+| PricingAgent | 根据家具输入自主选择历史参考库或公开市场查询；可补查另一来源。资料查询阶段合计 20 秒，有可用证据可提前采用；无可用证据且两种来源均已尝试或时间耗尽时，才开放 AI 估价工具。模型仍须主动选择该工具 |
+| LogisticsAgent | 负责物业与承运安排：读取回复条件、准备物业后续协调或模拟承运工作单；工作单沿用既有预计日期并传递物业时段／电梯／装卸限制。取货、送达是系统事件，直接校验并保存，不进入模型流程或模型锁。报价工具保持既有方式 |
+| PaymentAgent | 查询既有模拟付款结果（合法模拟请求成功、已处理返回既有记录、无效请求失败），模型选择付款准备或失败返回工具。验收时读取订单及资金，再准备验收与自动结算；无卖家申请结算 |
+| AuditReportingAgent | 报表金额仍由数据库记录计算，Agent 选择读取／汇总工具；另有新事件触发的增量核查，查询决定和关联记录、核对证据及金额关系、保存审计结论 |
+| SupervisionAgent | 仅在 conflict 路由进入，查询冲突证据与创始人政策。当前既有额外配送成本冲突按 P-EXTRA 政策处理；缺少政策或同类政策冲突时保持暂停并进入已有 HumanReview。不是任意自由文本政策执行器 |
 
-Fixture mode remains an explicitly selected offline test/demo mode, never an automatic recovery path. Clock controls, media upload, role navigation, and form validation remain ordinary application utilities. No real payment or email service was added.
+## 强制业务保护与提交
 
-## Evidence
+普通路由由 `Dispatch` 程序节点分派。原先每次运行的结果检查保留为 `BusinessRules`；它不是监督 Agent 的 LLM 调用。原预算、尺寸、物业、付款、验收、费用和防重复检查保持生效。
 
-Admin workflows show actual model calls, durations, tool selection, short operational purpose, tool result and tool duration. These are execution evidence and brief decisions, not private model chain-of-thought. Old historical events are not retroactively labelled as model calls. Buyer/seller responses continue to strip internal execution data. Reports and paused requests retain sanitized audit records.
+物流协调／付款工具在私有状态副本上运行既有 domain 规则，只生成带请求摘要的已验证提案。最终数据库事务核对提案与原始请求一致，并在锁定的最新状态上重新执行原规则。模型不能因旧快照通过而覆盖后来的库存、政策或订单变化。买家验收与模拟结算仍是同一次原子事务。原命令收据、付款与结算唯一约束继续防重复。
+
+价格的历史库使用现有 `market_reference` 最近 30 天记录，不新增向量库。来源匹配、参考折算、中位数、AI 新品价折旧公式均沿用现有函数；卖家保留定价权。AI 估价也失败时返回无建议价，卖家可手动定价。超时的只读查询响应会被丢弃，不会晚到后写回价格或参考库。
+
+## 事件审计
+
+新增迁移 `003_agent_audit.sql` 创建 `agent_audit_jobs`。原始 Agent 决定／工具／业务结果随原事务记录；审计任务也在同一事务内入队。提交成功后唤醒后台审计线程，审计不阻塞买家付款或验收响应。
+
+线程在有新任务或启动恢复时处理队列，无新事件时等待，不定时调用模型。失败保留原始记录和任务，下次新事件再尝试，最多三次；审计失败不回滚已完成业务。审计自己的记录不再次入队，避免递归。失联超过十分钟的执行声明在下次唤醒或启动时恢复；重置演示会删除任务，旧执行结果不能重新写回。
+
+审计工具只读业务状态，不能修改订单、付款或政策。金额关系由代码核对，模型不编造财务数字。结论及其工具依据在创始人端现有折叠记录区显示。
+
+## 前端与证据
+
+买卖双方现有页面结构、输入、配色和业务入口保留。买家付款只给简短处理提示；已付款／交易完成继续只显示绿色状态框和收据。创始人经营概览复用已有 Audit 组件，增加折叠的全局记录入口；记录显示实际工具、选择目的、工具结果、模型调用和耗时。源记录继续在服务端对买卖双方脱敏。
+
+未接真实银行、承运商或物业邮件服务。模拟事件会真实提交到后端、经工具检查并保存，但不代表真实外部服务已经执行。
+
+
+## 物流协调与事件同步分工（后续确认）
+
+- `property` 和 `advance/book` 由物流 Agent 读取协调信息，再选择相应准备工具，默认两次工具选择；只有原有条件通过后才记录回复／承运接受。
+- `advance/pickup`、`advance/deliver` 直接进入既有事务，调用原 `domain.advance` 校验和更新；不访问模型、不获取模型流程锁，也不等待 Agent 检查点。
+- 新的取货／送达记录标记为 `System / delivery_event / not_called`，创始人端显示“系统事件更新 · 未调用 AI”；旧历史记录不重写。原始检查依据、状态变化、命令收据和事件审计保留。
+- 物业及承运协调元数据只在创始人记录中显示。承运工作单沿用原预计日期，带上原始物业时段、电梯和装卸条件；不新增自动放行、自由文本执行或排期业务规则，也不宣称已经真实发送外部消息。
+- 取货仍须待取货且承运已接受；送达仍须配送中；送达不等于验收或结算。付款、验收、费用及争议保护保持不变。

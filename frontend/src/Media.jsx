@@ -76,3 +76,16 @@ export function PhotoUpload({
         e.target.value = '';
       }} /></label></div><p className="muted">{_tr("\u652F\u6301 JPEG\u3001PNG\u3001WebP\u3001HEIC \xB7 \u5355\u5F20\u4E0D\u8D85\u8FC7 15 MB")}</p>{_tr(error && <p className="field-error" role="alert">{_tr(error)}</p>)}</div>;
 }
+
+// Main photo plus clickable angle/detail thumbnails; the selected thumbnail drives the main photo.
+export function PhotoGallery({
+  item
+}) {
+  const _tr = useLanguage();
+  const angles = [['front', '正面'], ['top', '俯视'], ['side', '侧面']];
+  const shots = [...angles.filter(([k]) => item.photos?.[k]).map(([k, t]) => ({src: item.photos[k].ref, label: _tr(t)})), ...(item.photos?.details || []).map((p, i) => ({src: p.ref, label: _tr('其他细节') + (i + 1)}))];
+  const [selected, setSelected] = useState(0);
+  useEffect(() => setSelected(0), [item.id]);
+  const current = shots[selected] || shots[0];
+  return <><Photo className="detail-photo" src={current ? current.src : item.image} alt={_tr(item.name) + (current ? ' · ' + current.label : '')} />{shots.length > 1 && <div className="photo-gallery">{shots.map((p, i) => <button type="button" key={p.src + i} className={'gallery-thumb' + (i === selected ? ' selected' : '')} aria-pressed={i === selected} aria-label={p.label} onClick={() => setSelected(i)}><Photo src={p.src} alt={p.label} /><small>{p.label}</small></button>)}</div>}</>;
+}

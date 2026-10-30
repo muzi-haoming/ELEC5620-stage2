@@ -21,7 +21,7 @@ Copy-Item .env.example .env
 npm run dev --prefix frontend
 ```
 
-或者执行 `./scripts/start-dev.ps1`，它会隐藏后台窗口启动 API 与前端。本次 MSI 的本地 PostgreSQL 二进制和数据位于 `.runtime/`，脚本可复用它；此目录不提交到仓库。
+或者执行 `./scripts/start-dev.ps1`，它会隐藏后台窗口启动 API 与前端。日志和上传图片位于 `.runtime/`，此目录不提交到仓库。
 
 打开 http://127.0.0.1:5622/ ，API 文档 http://127.0.0.1:8001/docs 。确认 http://127.0.0.1:5622/api/health 返回 ok。此检查只证明数据库连接，不代表模型可达。
 
@@ -98,18 +98,14 @@ npm run build --prefix frontend
 node frontend/tests/api-flow.mjs
 ```
 
-仓库附 GitHub Actions CI：PostgreSQL service、Python API 测试、前端规则测试与构建。PR 提交前检查 `.env`、`.runtime`、附件中的原始凭据均未进入 Git。当前分支名为 feat/python-langgraph-backend。建议由另一位组员按 PR 模板复核并合并。
-
+仓库附 GitHub Actions CI：PostgreSQL service、Python API 测试、前端规则测试与构建。PR 提交前检查 `.env`、`.runtime`、附件中的原始凭据均未进入 Git。
 参考：[Google Cloud SQL TLS](https://docs.cloud.google.com/sql/docs/postgres/configure-ssl-instance)、[LangGraph interrupt/resume](https://docs.langchain.com/oss/python/langgraph/interrupts)、[LangChain ChatOpenAI 兼容服务配置](https://docs.langchain.com/oss/python/integrations/chat/openai)。
 
-## 当前 MSI 配置（2026-10-22）
+## 7. 配置文件与图片迁移
 
-应用 `.env` 和私有 `.env.cloud` 指向独立的 `secondspace_mvp_20261022` 云数据库（TLS required）。云实例原有 postgres 数据库不写入业务表。本地旧配置保存在 `.env.local-backup`，迁移前 SQL 备份在 `.runtime/before-cloud-*.sql`；真实配置、备份、上传文件均不提交 Git。
+数据库检查：`.venv/Scripts/python.exe scripts/check-database.py`。测试必须显式提供 TEST_DATABASE_URL，不会从云生产地址自动派生目标。
 
-检查：`.venv/Scripts/python.exe scripts/check-database.py`。
-本机自动化测试仍使用 `.runtime/test.env` 指定的本地 secondspace_test；其他电脑必须显式提供 TEST_DATABASE_URL。测试不会从云生产地址自动派生目标。
-
-kind 云模式读取 `.env.cloud`；本地模式运行 `./scripts/deploy-kind.ps1 -DatabaseMode Local -EnvFile .env.local-backup`。Compose 默认读取 `.env`，可以通过 APP_ENV_FILE 改用 `.env.cloud`。
+kind 云模式默认读取 `.env.cloud`；本地模式运行 `./scripts/deploy-kind.ps1 -DatabaseMode Local -EnvFile .env`。Compose 默认读取 `.env`，可以通过 APP_ENV_FILE 改用 `.env.cloud`。
 
 图片仍保存在演示电脑 `.runtime/uploads`，云数据库保存元数据。换电脑/容器前需要复制图片到对应 uploads volume，不能仅迁移数据库。当前部署仅用于本机 MVP 演示。
 

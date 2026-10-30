@@ -1,4 +1,4 @@
-# Optional local PostgreSQL for development; the base deployment uses DATABASE_URL from .env (Azure).
+# Optional local PostgreSQL for development; the base deployment uses DATABASE_URL from .env (Google Cloud SQL).
 services:
   postgres:
     image: postgres:17

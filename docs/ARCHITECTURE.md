@@ -1,3 +1,5 @@
+> 当前 Agent 协作以 [AGENT-TOOLS.md](AGENT-TOOLS.md) 和 [AGENT-CHANGELOG.md](AGENT-CHANGELOG.md) 为准（2026-10-29）。普通流程由程序分派，价格／物流／付款采用受限模型工具选择，监督只处理冲突，增量审计由新事件唤醒。本文以下较早的固定路由与摘要节点说明作为历史背景保留。
+
 # Second Space：Python 后端实现说明
 
 ## 当前约定优先级
@@ -87,4 +89,4 @@ ListingAgent 负责真实上传照片的自动审核；审核通过即上架，�
 
 新业务参考价格为空，页面挂载、修改类别和提交上架不触发估价。`pricing` 接收家具资料 `form`；提交上架不再触发 PricingAgent；主动估价先由 ListingAgent 审核照片和类别，通过才进行外部比价。主动请求的来源、实际抓取记录与匹配结果随 command receipt 保存。详见 [公开比价说明](PUBLIC-PRICING.md)。
 
-The live orchestration described above is superseded by the model-selected request-scoped tool workflow in [AGENT-TOOLS.md](AGENT-TOOLS.md) as of 2026-10-29. Fixture mode remains explicit and is never an automatic fallback.
+As of 2026-10-29 the agent orchestration follows the Stage 1 report's supervisor-worker design: SupervisionAgent dispatches by a fixed route table, checks every worker outcome before commit, lists stalled orders and escalates policy-uncovered conflicts with options. Workers call campus-qwen only for photo review, preference parsing and the AI price estimate. See [AGENT-TOOLS.md](AGENT-TOOLS.md). Fixture mode remains explicit and is never an automatic fallback.

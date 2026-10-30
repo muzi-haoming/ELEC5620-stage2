@@ -253,32 +253,30 @@ def test_fractional_service_fee_keeps_ledger_balanced(client):
     assert ledger['seller_cents'] + ledger['carrier_cents'] + ledger['platform_cents'] == d.cents(o['total'])
 
 
-@pytest.mark.parametrize('real_furniture,category_match', [(False,False),(True,False)])
-def test_pricing_requires_furniture_and_matching_category(client,monkeypatch,real_furniture,category_match):
+def test_pricing_requires_real_furniture_and_explains_rejection(client,monkeypatch):
     from app.agents import VisualAssessment
     image=io.BytesIO();Image.new('RGB',(32,32),'blue').save(image,'JPEG')
     uploaded=client.post('/api/media',files={'file':('test.jpg',image.getvalue(),'image/jpeg')},headers={'X-Demo-Role':'seller'}).json()
     form=deepcopy(db.seed()['items'][0])
     form['photos']={k:uploaded for k in ['front','top','side']};form['photos']['details']=[]
     monkeypatch.setattr(config,'MODEL_MODE','live')
-    monkeypatch.setattr('app.agents.structured_model',scripted_model(lambda:VisualAssessment(approved=True,depicts_real_furniture=real_furniture,category_match=category_match,directions_match=True,description_match=True,clear_and_relevant=True,reasons=['Not furniture or category mismatch'])))
-    monkeypatch.setattr('app.market_pricing.market_price',lambda *a:pytest.fail('Rejected photos must never reach pricing'))
+    monkeypatch.setattr('app.agents.structured_model',scripted_model(lambda:VisualAssessment(approved=False,depicts_real_furniture=False,category_match=False,directions_match=True,description_match=True,clear_and_relevant=True,reasons=['cartoon'],reason='正面照片是一张卡通画',suggestion='请换成家具的实拍照片')))
+    monkeypatch.setattr('app.market_pricing.ai_price',lambda *a:pytest.fail('Rejected photos must never reach pricing'))
     result=ok(call(client,'pricing',{'form':form},'seller'))
-    assert result['suggested'] is None and result['status']==('category_mismatch' if real_furniture else 'photo_rejected')
-    assert ('照片中的家具与所选类别不一致' in result['errors'].get('category','')) if real_furniture else ('上传图片不符合平台政策' in result['errors'].values())
+    assert result['suggested'] is None and result['status']=='photo_rejected'
+    assert result['feedback']=={'reason':'正面照片是一张卡通画','suggestion':'请换成家具的实拍照片'}
+    assert '正面照片是一张卡通画' in result['errors']['front']
     rejected=ok(call(client,'listing',{'form':form},'seller'))
-    assert rejected['status']=='rejected'
-    assert ('类别不一致' in rejected['screenReason']) if real_furniture else ('上传图片不符合平台政策' in rejected['screenReason'])
+    assert rejected['status']=='rejected' and '卡通画' in rejected['screenReason']
     admin=client.get('/api/state',headers={'X-Demo-Role':'manager'}).json()
     internal=next(i for i in admin['items'] if i['id']==rejected['id'])
-    assert internal['assessment']
-    assert internal['assessment']['checks'] is not None
+    assert internal['assessment'] and internal['assessment']['checks'] is not None
 
 
 def test_demo_category_mismatch_blocks_pricing(client,monkeypatch):
     form=deepcopy(db.seed()['items'][0]);form['category']='床'
     form['photos']={k:{'ref':'/images/sofa.jpg'} for k in ['front','top','side']};form['photos']['details']=[]
-    monkeypatch.setattr('app.market_pricing.market_price',lambda *a:pytest.fail('Wrong category reached pricing'))
+    monkeypatch.setattr('app.market_pricing.ai_price',lambda *a:pytest.fail('Wrong category reached pricing'))
     result=ok(call(client,'pricing',{'form':form},'seller'))
     assert result['status']=='category_mismatch' and result['suggested'] is None
 
@@ -304,13 +302,7 @@ def test_delivery_preview_matches_fixed_quote(client):
 
 
 def scripted_model(assessment):
-    """Offline planner double; production always calls the campus model."""
+    """Offline model double for the photo review; production always calls the campus model."""
     def invoke(schema,prompt,content,**kwargs):
-        from app.agent_tools import Selection
-        import json
-        if schema is Selection:
-            available=json.loads(content)['tools']
-            selected=next(k for k in available if k not in ('read_policy','inspect_request'))
-            return Selection(tool=selected,reason='Offline test choice')
         return assessment()
     return invoke

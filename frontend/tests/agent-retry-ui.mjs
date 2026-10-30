@@ -12,7 +12,7 @@ try {
  const price=page.getByTestId('get-suggested-price');await price.click();
  await page.getByText('This request was not completed. Your entries are retained; please retry.',{exact:true}).waitFor();
  assert.equal(await name.inputValue(),'Retained chair');assert.ok(await price.isEnabled());
- await price.click();await page.locator('.request-progress').waitFor({state:'hidden'});assert.equal(calls,2);
+ await price.click();await page.locator('button[aria-busy=true]').first().waitFor({state:'hidden'});assert.equal(calls,2);
  assert.equal(await name.inputValue(),'Retained chair');
  console.log('PASS: AI 503 preserves form, accurate incomplete message, and retry re-enabled.');
 } finally { await browser.close(); }

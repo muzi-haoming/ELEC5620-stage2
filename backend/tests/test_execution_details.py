@@ -4,8 +4,8 @@ from app.main import visible, result_view
 
 def test_execution_metadata_is_manager_only():
     event = {'agent': 'MatchingAgent', 'text': 'done', 'execution': {'steps': [{'modelCall': 'succeeded'}]}}
-    order = {'events': [event]}
-    state = {'orders': [order], 'items': [], 'audit': [], 'policies': [], 'exceptions': []}
+    order = {'events': [event], 'id':'test', 'status':'settled'}
+    state = {'now':0, 'orders': [order], 'items': [], 'audit': [], 'policies': [], 'exceptions': []}
     assert visible(state, 'manager')['orders'][0]['events'][0]['execution']
     for role in ('buyer', 'seller'):
         assert 'execution' not in visible(state, role)['orders'][0]['events'][0]

@@ -3,6 +3,7 @@ import { useLanguage, translate as _tr } from "./Language";
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from './store';
+import { useStepLabel } from './Progress';
 import { advanceOrder, tick, day, date, money, statuses, uid, log } from './domain-v2.mjs';
 export function Button({
   children,
@@ -14,18 +15,22 @@ export function Button({
   ...props
 }) {
   const _tr = useLanguage();
-  const {operation} = useStore();
+  const {operation, progress} = useStore();
+  const buyerPayment = useLocation().pathname.startsWith('/buyer/') && ['purchase','advance'].includes(operation);
+  const stepLabel = useStepLabel();
   const [waiting,setWaiting] = useState(false);
   const locked = React.useRef(false);
   // Explicit loading belongs to this button; unrelated requests only disable it.
   const busy = waiting || (loading ?? (!!operation && props.type === 'submit'));
+  // While this button's request runs, show the step the server reports right now.
+  const running = busy ? [...(progress || [])].reverse().find(step => step.status === 'running') : null;
   async function click(e){
     if(locked.current)return;
     locked.current=true;
     try{const result=onClick?.(e);if(result?.then){setWaiting(true);await result;}}
     finally{locked.current=false;setWaiting(false);}
   }
-  return <button {...props} className={'button '+(secondary?'secondary ':'')+className} disabled={disabled||busy||!!operation} aria-busy={busy} onClick={click}>{busy&&<span className="loading-spinner" aria-hidden="true"/>}{_tr(children)}</button>;
+  return <button {...props} className={'button '+(secondary?'secondary ':'')+className} disabled={disabled||busy||!!operation} aria-busy={busy} onClick={click}>{busy&&<span className="loading-spinner" aria-hidden="true"/>}{_tr(children)}{busy&&running&&!buyerPayment&&<small className="button-step"> · {stepLabel(running.label)}</small>}</button>;
 }
 export function Field({
   label,
@@ -88,7 +93,7 @@ export function Shell({
   } = useStore();
   const path = useLocation().pathname;
   const role = path.split('/')[1];
-  const nav = role === 'seller' ? [['我的家具', '/seller/listings', '▦'], ['发布家具', '/seller/listings/new', '＋']] : role === 'buyer' ? [['发现与推荐', '/buyer/discover', '⌕'], ['我的订单', '/buyer/orders', '▤']] : [['经营概览', '/manager/overview', '▦'], ['异常与冲突', '/manager/exceptions', '◇'], ['现行政策', '/manager/policies', '▤']];
+  const nav = role === 'seller' ? [['我的家具', '/seller/listings', '▦'], ['发布家具', '/seller/listings/new', '＋']] : role === 'buyer' ? [['发现与推荐', '/buyer/discover', '⌕'], ['我的订单', '/buyer/orders', '▤']] : [['Agent 运转台', '/manager/agents', '◎'], ['经营数据', '/manager/overview', '▦'], ['异常与冲突', '/manager/exceptions', '◇'], ['现行政策', '/manager/policies', '▤']];
   const title = role === 'buyer' ? 'Buyer · 买家' : role === 'seller' ? 'Seller · 卖家' : 'Admin · 经营者';
   return <div className={"shell theme-"+role}><aside className="sidebar"><Link to="/" className="brand"><span className="chair-mark">▰</span>second space</Link><div className="role-label">{_tr(title)}</div><nav>{_tr(nav.map(([label, to, icon]) => <Link key={to} className={path === to || path.startsWith(to + '/') && to.endsWith('orders') ? 'active' : ''} to={to}><span>{_tr(icon)}</span>{_tr(label)}</Link>))}</nav><div className="sidebar-bottom"><p>{_tr("\u65E7\u7269\u65B0\u751F")}<br />{_tr("\u7A7A\u95F4\u7115\u65B0\u3002")}</p><Link to="/">{_tr("\u2190 \u8FD4\u56DE\u89D2\u8272\u5165\u53E3")}</Link></div></aside><div className="workspace"><header className="topbar"><span>⌖ Sydney, NSW</span><span className="top-note">{_tr(title)}</span><span className="avatar">{_tr(role === 'manager' ? 'A' : role[0].toUpperCase())}</span></header><main>{_tr(children)}</main><footer>{_tr("Second Space \xB7 \u7ED9\u597D\u5BB6\u5177\u4E00\u4E2A\u65B0\u5F00\u59CB")}<span>{_tr("\u6F14\u793A\u65F6\u95F4")}{_tr(date(s.now))}</span></footer></div></div>;
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import {useLanguage} from './Language';
 import {statuses} from './domain-v2.mjs';
-const duties={ListingAgent:'资料与图片审核',PricingAgent:'市场比价与估价',MatchingAgent:'需求偏好匹配',LogisticsAgent:'配送流程协调',PaymentAgent:'模拟付款与结算',SupervisionAgent:'流程调度与政策分流',AuditReportingAgent:'经营数据汇总'};
-const actions={purchase:'模拟付款并创建订单',property:'记录物业回复',book:'确认承运安排',pickup:'记录取货',deliver:'记录送达',confirm:'记录买家验收',settle:'完成模拟结算',issue:'记录交付问题',resolve:'处理交付问题',advance:'推进订单流程',pricing:'获取建议售价',listing:'提交家具审核',recommend:'获取推荐',quote:'生成配送报价',report:'查询经营数据',conflict:'处理报价冲突',policy:'更新政策'};
+const duties={ListingAgent:'资料与图片审核',PricingAgent:'市场比价与估价',MatchingAgent:'需求偏好匹配',LogisticsAgent:'配送流程协调',PaymentAgent:'模拟付款与结算',SupervisionAgent:'冲突协调与政策处理',AuditReportingAgent:'增量审计与经营汇总',BusinessRules:'业务规则强制校验',System:'系统执行记录'};
+const actions={purchase:'模拟付款并创建订单',property:'记录物业回复',book:'确认承运安排',pickup:'记录取货',deliver:'记录送达',confirm:'记录买家验收',settle:'完成模拟结算',issue:'记录交付问题',resolve:'处理交付问题',advance:'推进订单流程',pricing:'获取建议售价',listing:'提交家具审核',recommend:'获取推荐',quote:'生成配送报价',report:'查询经营数据',audit:'核查新增执行记录',conflict:'处理报价冲突',policy:'更新政策'};
 const fields={status:'订单状态',providerAccepted:'承运确认',held:'资金留置',buyerAccepted:'买家验收',delivered:'送达记录',issue:'交付问题',property:'物业申请'};
 function value(field,v,t){
  if(v==null)return t('未记录');
@@ -37,9 +37,9 @@ export function ExecutionDetails({execution}){
   <ol>{(execution.steps||[]).map((step,i)=>{
    const called=['succeeded','failed'].includes(step.modelCall);
    const knownNoCall=step.modelCall==='not_called'||step.agent==='SupervisionAgent'&&step.mode==='policy';
-   return <li key={i}><strong>{step.agent}</strong>
-    <p>{t('职责说明')}：{t(duties[step.agent]||'业务流程处理')}</p>
-    <span className="badge">{t(called?(step.modelCall==='succeeded'?'AI 调用成功':'AI 调用失败'):knownNoCall?'规则处理 · 未调用 AI':'无模型调用记录')}</span>
+   return <li key={i}><strong>{step.agent==='System'?t('系统事件更新'):step.agent}</strong>
+    <p>{t('职责说明')}：{t(duties[step.agent]||'业务流程处理')}</p>{step.summary&&<p>{t('处理结果')}：{t(step.summary)}</p>}
+    <span className="badge">{t(step.mode==='delivery_event'?'系统事件更新 · 未调用 AI':step.mode==='delivery_event_rejected'?'事件校验未通过':step.mode==='fixture_tools'?'离线演示 · 工具选择':called?(step.modelCall==='succeeded'?'AI 调用成功':'AI 调用失败'):knownNoCall?'规则处理 · 未调用 AI':'无模型调用记录')}</span>
     {called&&<p>{t('模型')}: {step.model||t('未记录')}<br/>{t('接口')}: {step.endpoint?'POST '+step.endpoint:t('未记录')}<br/>{t('调用耗时')}: {step.modelDurationMs==null?t('未单独记录'):step.modelDurationMs+' ms'}</p>}
     {step.selection&&<p><b>{t('选择的工具')}:</b> {step.selection}{step.selectionReason&&<><br/>{t('调用目的')}: {step.selectionReason}</>}</p>}
     {!!step.tools?.length&&<div><b>{t('实际工具调用')}</b>{step.tools.map((tool,j)=><details key={j}><summary>{tool.name} · {t(tool.status==='succeeded'?'通过':'未通过')}</summary><p>{t('耗时')}: {tool.durationMs==null?t('未单独记录'):tool.durationMs+' ms'}</p><pre style={{whiteSpace:'pre-wrap',overflowWrap:'anywhere'}}>{typeof tool.result==='string'?tool.result:JSON.stringify(tool.result??{},null,2)}</pre></details>)}</div>}

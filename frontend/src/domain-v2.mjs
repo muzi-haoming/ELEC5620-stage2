@@ -3,7 +3,7 @@ export {DAY,categories,round,money,day,uid,log,providers,parsePreferences,recomm
 export const date=t=>new Date(t).toLocaleString(globalThis.localStorage?.getItem('second-space-language')==='en'?'en-AU':'zh-CN',{timeZone:'Australia/Sydney',hour12:false});
 export const statuses={pending:'待取货',transit:'配送中',received:'已收货',settled:'已结算'};
 export const buyerStatuses={pending:'待取货',transit:'配送中',received:'已收货',completed:'交易完成'};
-export const sellerStatuses={published:'可售',rejected:'拒绝上架',...buyerStatuses};
+export const sellerStatuses={published:'在售',rejected:'未通过审核',...buyerStatuses};
 export const buyerStatus=o=>o.status==='settled'?'completed':o.status;
 export const sellerStatus=(s,i)=>i.status==='rejected'?'rejected':buyerStatus(s.orders.find(o=>o.item.id===i.id)||{status:'published'});
 export const defaultPhotos=image=>({front:{ref:image,name:'front.jpg'},top:{ref:image,name:'top.jpg'},side:{ref:image,name:'side.jpg'},details:[]});

@@ -30,6 +30,10 @@ export function useLanguage() {
   useContext(LanguageContext);
   return translate;
 }
+// 'zh' or 'en', for copy assembled from numbers that the phrase table cannot translate.
+export function useLanguageCode() {
+  return useContext(LanguageContext).language;
+}
 export function LanguageSwitch() {
   const {
     language,

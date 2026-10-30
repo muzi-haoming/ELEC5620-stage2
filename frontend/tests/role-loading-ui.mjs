@@ -14,19 +14,19 @@ try{
  const colours=[];
  colours.push(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor));
  const match=page.getByRole('button',{name:/Find my matches/});
- await match.click();await page.locator('.request-progress').waitFor();assert.equal(await match.getAttribute('aria-busy'),'true');assert.ok(await match.isDisabled());
+ await match.click();await page.locator('button[aria-busy=true]').first().waitFor();assert.equal(await match.getAttribute('aria-busy'),'true');assert.ok(await match.isDisabled());
  await match.evaluate(el=>el.click());assert.equal(calls,1);
- release();await page.locator('.request-progress').waitFor({state:'hidden'});assert.ok(await match.isEnabled());
+ release();await page.locator('button[aria-busy=true]').first().waitFor({state:'hidden'});assert.ok(await match.isEnabled());
  await page.goto(base+'/#/seller/listings/new');const price=page.getByTestId('get-suggested-price');await price.waitFor();
  colours.push(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor));
- await price.click();await page.locator('.request-progress').waitFor();assert.equal(await price.getAttribute('aria-busy'),'true');assert.ok(await price.isDisabled());const submit=page.locator('button[type=submit]');assert.ok(await submit.isDisabled());assert.equal(await submit.getAttribute('aria-busy'),'false');assert.equal(await submit.locator('.loading-spinner').count(),0);release();await page.locator('.request-progress').waitFor({state:'hidden'});
- await submit.click();await page.locator('.request-progress').waitFor();assert.equal(await submit.getAttribute('aria-busy'),'true');assert.equal(await submit.locator('.loading-spinner').count(),1);release();await page.locator('.request-progress').waitFor({state:'hidden'});
+ await price.click();await page.locator('button[aria-busy=true]').first().waitFor();assert.equal(await price.getAttribute('aria-busy'),'true');assert.ok(await price.isDisabled());const submit=page.locator('button[type=submit]');assert.ok(await submit.isDisabled());assert.equal(await submit.getAttribute('aria-busy'),'false');assert.equal(await submit.locator('.loading-spinner').count(),0);release();await page.locator('button[aria-busy=true]').first().waitFor({state:'hidden'});
+ await submit.click();await page.locator('button[aria-busy=true]').first().waitFor();assert.equal(await submit.getAttribute('aria-busy'),'true');assert.equal(await submit.locator('.loading-spinner').count(),1);release();await page.locator('button[aria-busy=true]').first().waitFor({state:'hidden'});
  await page.goto(base+'/#/manager/records/'+order.id);await page.locator('.theme-manager').waitFor();
  colours.push(await page.locator('.sidebar').evaluate(el=>getComputedStyle(el).backgroundColor));assert.equal(new Set(colours).size,3);
  await page.locator('details.audit>summary').click();await page.locator('.execution-details summary').first().click();await page.getByText('Rule processing · No AI call',{exact:true}).first().waitFor();
- await page.getByRole('button',{name:/Demo controls/}).click();const pickup=page.getByRole('button',{name:'Simulate pickup',exact:true});await pickup.click();await page.locator('.request-progress').waitFor();assert.equal(await pickup.getAttribute('aria-busy'),'true');
+ await page.getByRole('button',{name:/Demo controls/}).click();const pickup=page.getByRole('button',{name:'Simulate pickup',exact:true});await pickup.click();await page.locator('button[aria-busy=true]').first().waitFor();assert.equal(await pickup.getAttribute('aria-busy'),'true');
  for(const name of ['Simulate delivery','Final check + Carrier acceptance','Resolve delivery issue']) assert.ok(await page.getByRole('button',{name,exact:true}).isDisabled());
- release();await page.locator('.request-progress').waitFor({state:'hidden'});
+ release();await page.locator('button[aria-busy=true]').first().waitFor({state:'hidden'});
  await page.goto(base+'/#/buyer/orders/'+order.id);await page.locator('.theme-buyer').waitFor();assert.equal(await page.locator('.execution-details').count(),0);
  console.log('PASS: distinct themes, delayed recommendation/pricing/demo loading, duplicate prevention, manager-only execution detail.');
 }finally{await browser.close();}

@@ -54,6 +54,7 @@ def setup():
         conn.execute('SELECT pg_advisory_xact_lock(5620001)')
         conn.execute((config.ROOT / 'migrations/001_initial.sql').read_text(encoding='utf-8'))
         conn.execute((config.ROOT / 'migrations/002_market.sql').read_text(encoding='utf-8'))
+        conn.execute((config.ROOT / 'migrations/003_agent_audit.sql').read_text(encoding='utf-8'))
         if not conn.execute('SELECT 1 FROM app_meta WHERE id=1').fetchone():
             conn.execute('INSERT INTO app_meta VALUES (1,%s)', (Jsonb({}),))
             save(conn, seed())
@@ -64,13 +65,28 @@ def setup():
                 conn.execute('UPDATE app_meta SET payload=%s WHERE id=1',(Jsonb(row),))
 
 
-def read(conn, lock=False):
-    row = conn.execute('SELECT payload FROM app_meta WHERE id=1' + (' FOR UPDATE' if lock else '')).fetchone()
-    s = deepcopy(row['payload'])
+COLLECTIONS_SQL = ' UNION ALL '.join(f"SELECT '{key}' AS collection,id,payload FROM {table}" for key, table in COLLECTIONS.items())
+# Meta row plus every collection in ONE statement. A single statement always reads one consistent
+# snapshot, so this matches the previous REPEATABLE READ transaction without its extra round trips.
+SNAPSHOT_SQL = "SELECT '_meta' AS collection,'1' AS id,payload FROM app_meta WHERE id=1 UNION ALL " + COLLECTIONS_SQL
+
+
+@contextmanager
+def autocommit(conn):
+    """Run read-only statements without BEGIN/COMMIT round trips (client-side flag, no network)."""
+    previous = conn.autocommit
+    conn.autocommit = True
+    try:
+        yield conn
+    finally:
+        conn.autocommit = previous
+
+
+def _assemble(meta, records):
+    s = deepcopy(meta)
     ordering = s.pop('_ordering', {})
-    query = ' UNION ALL '.join(f"SELECT '{key}' AS collection,id,payload FROM {table}" for key, table in COLLECTIONS.items())
     grouped = {key: {} for key in COLLECTIONS}
-    for record in conn.execute(query).fetchall():
+    for record in records:
         grouped[record['collection']][record['id']] = record['payload']
     for key, values in grouped.items():
         s[key] = [values[k] for k in ordering.get(key, values.keys()) if k in values]
@@ -78,10 +94,18 @@ def read(conn, lock=False):
     return s
 
 
+def read(conn, lock=False):
+    # Write path: the meta row lock must be taken BEFORE the collections are read, so these stay
+    # two statements (a combined statement could read collections from a pre-lock snapshot).
+    row = conn.execute('SELECT payload FROM app_meta WHERE id=1' + (' FOR UPDATE' if lock else '')).fetchone()
+    return _assemble(row['payload'], conn.execute(COLLECTIONS_SQL).fetchall())
+
+
 def snapshot():
-    with connect() as conn:
-        conn.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ')
-        return read(conn)
+    with connect() as conn, autocommit(conn):
+        records = conn.execute(SNAPSHOT_SQL).fetchall()
+    meta = next(r['payload'] for r in records if r['collection'] == '_meta')
+    return _assemble(meta, [r for r in records if r['collection'] != '_meta'])
 
 
 def save(conn, s):

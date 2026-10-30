@@ -1131,10 +1131,19 @@
     {
       "id": "P-WINDOW",
       "name": "买家验收",
+      "rule": "送达后 48 小时内买家未提出问题，系统自动验收并结算。",
+      "created": 1789599600000,
+      "active": false,
+      "version": 1
+    },
+    {
+      "id": "P-WINDOW",
+      "name": "买家验收",
       "rule": "物流送达后为已收货；必须由买家验收通过才交易完成，不会因时间经过自动验收。",
       "created": 1790809200000,
       "active": true,
-      "version": 1
+      "version": 2,
+      "reason": "为保护买家，取消超时自动验收：必须由买家确认后才结算。"
     },
     {
       "id": "P-ESCALATE",

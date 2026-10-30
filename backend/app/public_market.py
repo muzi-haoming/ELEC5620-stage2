@@ -1,14 +1,16 @@
 """Anonymous, bounded public product-page discovery. No login or challenge bypass."""
 import json
 import re
+import time
 import hashlib
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlsplit
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, wait
 from decimal import Decimal, InvalidOperation
 import httpx
 
 HOSTS={'www.zirkly.com.au','www.melbourneusedsofas.com.au','www.cashconverters.com.au'}
+SEARCH_BUDGET_SECONDS=15
 class Page(HTMLParser):
     def __init__(self):
         super().__init__(); self.links=[]; self.json=[]; self.text=[]; self.kind=None; self.buffer=[]; self.hidden=0
@@ -66,7 +68,10 @@ def product(page,url):
             'condition':'Used','location':offers.get('availableAtOrFrom',{}).get('name','Melbourne' if 'melbourneusedsofas' in url else 'Australia')}
     return None
 
-def public_candidates(category, query="", subcategory="tables"):
+def public_candidates(category, query="", subcategory="tables", budget=SEARCH_BUDGET_SECONDS):
+    """Returns (rows, failures). Stops after `budget` seconds and returns what was read by then."""
+    deadline=time.monotonic()+budget
+    remaining=lambda:deadline-time.monotonic()
     section={'沙发':'sofas','床':'beds-and-bedroom','其他':subcategory}.get(category,'')
     base='https://www.zirkly.com.au/second-hand-furniture'
     indexes=[base+('/'+section if section else '')]
@@ -78,7 +83,8 @@ def public_candidates(category, query="", subcategory="tables"):
         cash='https://www.cashconverters.com.au'
         search_term=next((term for term in ['gaming chair','office chair','bed frame','sofa','chair','table','cabinet'] if query.lower().startswith(term)),query)
         try:
-            response=client.get(cash+'/c3api/search/results',params={'query':search_term,'NumberOfResults':12})
+            if remaining()<=1:raise ValueError('Search time budget exhausted')
+            response=client.get(cash+'/c3api/search/results',params={'query':search_term,'NumberOfResults':12},timeout=min(10,remaining()))
             response.raise_for_status()
             if len(response.content)>2_000_000:raise ValueError('Oversized response')
             payload=response.json()
@@ -88,6 +94,7 @@ def public_candidates(category, query="", subcategory="tables"):
                 if allowed(url) and url.startswith(cash+'/shop/'):urls.append(url)
         except (httpx.HTTPError,ValueError,TypeError):failures.append(cash)
         for index in indexes:
+            if remaining()<=1:failures.append(index);continue
             try:
                 page=read(client,index)
                 links=[urljoin(index,x) for x in page.links]
@@ -98,7 +105,12 @@ def public_candidates(category, query="", subcategory="tables"):
             except (httpx.HTTPError,ValueError):failures.append(index)
         def fetch(url):
             try:return product(read(client,url),url)
-            except (httpx.HTTPError,ValueError,TypeError):failures.append(url);return None
-        with ThreadPoolExecutor(max_workers=3) as pool:
-            rows=[r for r in pool.map(fetch,list(dict.fromkeys(urls))[:24]) if r]
+            except Exception:failures.append(url);return None
+        pool=ThreadPoolExecutor(max_workers=3)
+        futures=[pool.submit(fetch,url) for url in list(dict.fromkeys(urls))[:24]]
+        done,pending=wait(futures,timeout=max(0,remaining()))
+        # Do not wait for slow pages past the budget; unfinished ones are reported as failures.
+        pool.shutdown(wait=False,cancel_futures=True)
+        rows=[f.result() for f in futures if f in done and f.result()]
+        failures.extend('timeout' for _ in pending)
     return rows,failures

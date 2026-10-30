@@ -593,3 +593,136 @@ Object.assign(translations,{'实际工具调用':'Actual tool calls','AI 暂时�
 Object.assign(translations,{'选择的工具':'Selected tool','调用目的':'Action purpose'});
 
 Object.assign(translations,{'本次请求未完成，已填写的资料保留，请重试。':'This request was not completed. Your entries are retained; please retry.'});
+
+Object.assign(translations,{'正在连接数据库，首次加载可能需要几秒。':'Connecting to the database. The first load may take a few seconds.','正在同步最新数据…':'Syncing latest data…'});
+Object.assign(translations,{'条件和在售家具都没有变化，已显示最新推荐。':'Nothing has changed in your preferences or the listings, so these are still your latest matches.'});
+Object.assign(translations,{'确认订单与付款':'Confirm order & payment','填写需求获取最多 3 件匹配推荐，或浏览全部在售家具。':'Describe what you need for up to 3 matches, or browse all listed furniture.'});
+Object.assign(translations,{'在售':'For sale','未通过审核':'Not approved','交易中':'In progress','资料已保存在未通过审核中，请修改标记字段后重新提交。':'Saved under Not approved. Please correct the highlighted fields and resubmit.'});
+Object.assign(translations,{'填写资料':'Details','审核与估价':'Review & pricing','定价上架':'Price & publish','家具审核通过':'Listing review passed','家具审核助手已检查你的资料和照片，可以继续定价。':'The listing reviewer checked your details and photos. You can continue to pricing.','小提示（不影响上架）':'Tips (do not block publishing)','需要价格小助手帮你评估售价吗？':'Would you like the pricing assistant to suggest a price?','价格小助手会根据家具名称、类别、材质和尺寸，用 AI 估算全新时的零售价，再按成色和年限折算出建议售价。':'The pricing assistant uses AI to estimate the new retail price from the name, category, material and size, then applies condition and age depreciation.','需要，帮我估价':'Yes, estimate a price','不需要，我自己定价':'No, I will set the price','← 返回修改资料':'← Back to details','建议售价':'Suggested price','使用建议售价':'Use suggested price','AI 估算参考价，非市场成交数据。':'AI estimate for reference, not market sale data.','全新估价':'Estimated new price','成色系数':'condition factor','年限系数':'age factor','估价依据':'Basis','可信度':'Confidence','低':'Low','中':'Medium','高':'High','成色按一般 0.65、良好 0.85、优秀 1.00 折算；年限每年折减 6%，最低保留 35%。':'Condition: fair 0.65, good 0.85, excellent 1.00; age: −6% per year, minimum 35%.','未使用价格小助手，请自行填写售价。':'Pricing assistant not used. Enter your own price.','让价格小助手估一下 →':'Ask the pricing assistant →','正在提交并上架':'Submitting and publishing','提交审核':'Submit for review','家具审核助手会检查照片是否为真实家具、与所选类别是否一致；角度或清晰度的小问题只会提示，不影响通过。':'The listing reviewer checks that photos show real furniture matching the category. Minor angle or clarity issues are shown as tips and do not block approval.','家具审核助手正在审核':'Listing reviewer is checking','价格小助手正在估价':'Pricing assistant is estimating','资料未改动，继续下一步':'No changes, continue','提交给家具审核助手':'Submit to listing reviewer','请先修改标记的字段。':'Please fix the highlighted fields first.','审核未通过，请按标记修改后重新提交。':'Review not passed. Fix the highlighted fields and resubmit.','价格小助手暂时无法给出建议，你可以自己定价。':'The pricing assistant could not suggest a price. You can set your own.','已停止等待，你的资料都还在。':'Stopped waiting. Your details are kept.','取消只是停止等待：后台可能仍会把这一步跑完，但不会改动你的资料或上架状态。':'Cancel only stops waiting. The server may still finish this step, but it will not change your details or listing status.','取消':'Cancel','正在连接服务…':'Connecting…','售价最多保留两位小数':'Use at most two decimal places','调度助手':'Coordinator','家具审核助手':'Listing reviewer','价格小助手':'Pricing assistant','推荐助手':'Matching assistant','物流助手':'Logistics assistant','支付助手':'Payment assistant','报表助手':'Reporting assistant','规划下一步':'planning next step','审核照片与资料':'reviewing photos and details','估算新品价并按成色、年限折算':'estimating new price and applying depreciation','读取当前请求':'reading the request','读取平台规则':'reading platform rules','解析偏好并筛选家具':'parsing preferences and filtering','校验业务操作':'validating the action','读取经营数据':'reading business data','保存结果':'Saving result','处理中':'working','完成':'done','照片角度与要求的正面、俯视、侧面不完全一致':'Photo angles do not fully match front, top and side','照片与填写的家具描述有出入':'Photos differ somewhat from the description','部分照片不够清晰或包含无关内容':'Some photos are unclear or include unrelated content'});
+Object.assign(translations,{'未通过：':'Not approved: ','建议：':'Suggestion: ','照片中的家具看起来和所选类别不太一样，请确认类别是否选对':'The furniture in the photos looks like a different category. Please check the category.','照片里没有看到实物家具':'No real furniture could be seen in the photos','请上传家具本身的实拍照片，正面、俯视、侧面各一张，然后重新提交。':'Upload real photos of the furniture (front, top and side), then resubmit.'});
+Object.assign(translations,{'家具审核助手只会拦下明显不是实物家具的照片；类别、角度、清晰度等小问题只会提示，不影响通过。':'The listing reviewer only stops photos that clearly show no real furniture. Category, angle or clarity issues are shown as tips and do not block approval.'});
+Object.assign(translations,{'未找到同类在售商品，以下为估算。':'No comparable listings were found; this is an estimate.','依据近期采集的同类二手商品':'Based on recently collected comparable used listings','依据今天采集的同类二手商品':'Based on comparable used listings collected today','参考样本较少，请结合自己的情况决定售价。':'Few comparable listings. Use your own judgement when setting the price.','最接近的挂牌价':'Closest listing price','成色、年限折算':'condition and age adjustment','查看来源':'View source','查看全部参考商品':'View all comparable listings','匹配度':'Match','挂牌价不等于成交价，仅供定价参考。':'Listing prices are not sale prices; use them as a guide.','暂时无法估价，你可以自己定价。':'No price estimate is available right now. You can set your own price.','估算建议售价':'estimating a suggested price','搜索同类二手商品':'searching comparable used listings','查询历史价格':'checking stored prices'});
+Object.assign(translations,{'监督 Agent':'Supervision Agent','审核 Agent':'Listing Agent','估价 Agent':'Pricing Agent','推荐 Agent':'Matching Agent','物流 Agent':'Logistics Agent','收款 Agent':'Payment Agent','审计 Agent':'Audit Reporting Agent','校验物流安排':'checking logistics','校验付款与结算条件':'checking payment and settlement','汇总经营数据':'summarising business data','核对固定总价':'checking the fixed total','检查结果':'checking the outcome','整理上报材料与可选方案':'preparing escalation options','监督 Agent 整理的可选方案（仅供参考，由你决定）':'Options prepared by the Supervision Agent (for reference; you decide)','影响':'Impact','停滞提醒 · 监督 Agent':'Stalled orders · Supervision Agent'});
+Object.assign(translations,{'商品最高预算 AUD':'Maximum item budget AUD'});
+Object.assign(translations,{'我想要这件 →':'I want this one →'});
+Object.assign(translations,{'配送信息与方案':'Delivery details & options','配送方案':'Delivery options'});
+
+Object.assign(translations,{
+  "已付款": "Paid",
+  "配送报价检查": "Delivery quote checks",
+  "模拟付款处理": "Simulated payment processing",
+  "验收与结算处理": "Acceptance and settlement",
+  "处理已完成，结果已保存。": "Processing complete. Results have been saved.",
+  "已停止等待，服务端可能仍在处理，请以最新订单状态为准。": "Stopped waiting. Processing may continue on the server; check the latest order status.",
+  "本次处理未完成，请重试。已通过的检查不代表结果已保存。": "Processing did not complete. Please retry. Passed checks do not mean results were saved.",
+  "配送检查": "Delivery checks",
+  "两端物业确认": "Property access at both ends",
+  "物业确认": "Property access",
+  "存在拒绝回复": "Access was refused",
+  "等待物业回复": "Waiting for a property reply",
+  "无需物业确认": "No property confirmation required",
+  "必要物业回复已批准": "Required property replies approved",
+  "已收到附条件回复，请查看具体条件": "Conditional reply received; review its conditions",
+  "承运安排": "Carrier arrangements",
+  "已确认": "Confirmed",
+  "等待最终检查与承运确认": "Awaiting final checks and carrier confirmation",
+  "取货": "Pickup",
+  "已取货": "Collected",
+  "等待取货": "Awaiting pickup",
+  "送达": "Delivery",
+  "已记录送达": "Delivery recorded",
+  "等待送达": "Awaiting delivery",
+  "根据当前订单与物业回复记录更新。": "Updated from current order and property reply records.",
+  "生成经营报告": "Generate business report",
+  "经营报告生成过程": "Business report progress",
+  "报告生成时间（Sydney）": "Report generated (Sydney)",
+  "报告生成失败，以下为当前订单记录的本地汇总，不代表本次审计已完成。请重新生成。": "Report generation failed. The figures below are a local summary of current order records, not a completed audit. Please regenerate.",
+  "准备配送处理": "preparing delivery processing",
+  "准备模拟付款与结算处理": "preparing simulated payment and settlement",
+  "物流": "Logistics",
+  "付款": "Payment",
+  "结算": "Settlement",
+  "审计": "Audit",
+  "核对家具可售状态": "checking item availability",
+  "检查配送资料、门尺寸与装卸条件": "checking delivery details, doorway dimensions and loading access",
+  "核对两端物业确认资料": "checking property contact details at both ends",
+  "计算配送费并准备固定报价": "calculating delivery fees and preparing a fixed quote",
+  "核对付款方式、报价有效期与家具状态": "checking payment method, quote validity and item availability",
+  "准备模拟留置、订单与收据（等待保存）": "preparing simulated held funds, order and receipt (not saved yet)",
+  "核对物业回复与承运前置条件": "checking property replies and carrier prerequisites",
+  "核对取货状态与承运确认": "checking pickup status and carrier acceptance",
+  "核对送达前的配送状态": "checking delivery status",
+  "核对送达记录、交付问题与留置资金": "checking delivery evidence, open issues and held funds",
+  "记录验收并计算服务费与净额（等待保存）": "recording acceptance and calculating fees and net proceeds (not saved yet)",
+  "保存结果与账本（提交后生效）": "saving results and ledger (effective after commit)",
+  "读取数据库订单与结算记录": "reading database orders and settlements",
+  "按查询日期汇总订单、收入与留置资金": "summarising orders, income and held funds for the selected dates",
+  "整理经营汇总": "preparing the business summary",
+  "保存报告查询记录": "saving the report query record"
+});
+
+Object.assign(translations,{"您的交易已完成，感谢您让好家具遇见新主人。":"Your transaction is complete. Thank you for giving good furniture a new home."});
+
+Object.assign(translations,{"物流 Agent 为您同步配送进度。":"The Logistics Agent keeps your delivery progress up to date.","家具已送达，物流 Agent 已更新配送状态。":"Your furniture has arrived. The Logistics Agent has updated the delivery status."});
+
+Object.assign(translations,{"停止等待后，审核可能仍会继续，您可稍后查看结果。":"The review may continue after you stop waiting. You can check the result later."});
+
+Object.assign(translations,{"冲突协调与政策处理":"Conflict coordination and founder policies","增量审计与经营汇总":"Incremental audit and business reports","业务规则强制校验":"Mandatory business validation","系统执行记录":"System execution records","核查新增执行记录":"Audit new execution records","处理结果":"Outcome","离线演示 · 工具选择":"Offline fixture · tool selection","选择处理工具":"selecting a processing tool","业务规则校验":"Business rule validation"});
+
+Object.assign(translations,{
+  "读取家具与可售状态": "reading item availability",
+  "读取两端通行与配送要求": "reading access and delivery requirements",
+  "检查通行条件并准备固定报价": "checking access and preparing the fixed quote",
+  "读取订单与配送阶段": "reading order and delivery stage",
+  "读取本次物业回复或模拟配送事件": "reading the property reply or simulated delivery event",
+  "核对必要物业回复": "checking required property replies",
+  "校验事件并准备对应状态更新": "validating the event and preparing its status update",
+  "查询模拟付款结果与重复付款记录": "checking simulated payment and duplicate records",
+  "按模拟结果准备订单、留置与收据": "preparing the order, held funds and receipt",
+  "返回模拟付款失败原因": "returning the simulated payment failure reason",
+  "读取送达、验收及交付问题": "reading delivery, acceptance and open issues",
+  "查询留置资金与已有结算记录": "checking held funds and existing settlement",
+  "校验并准备买家验收与自动结算": "checking acceptance and preparing automatic settlement",
+  "采用历史参考价格": "using historical reference prices",
+  "采用市场参考价格": "using current market references",
+  "查询历史家具知识库": "searching the furniture reference history",
+  "查询当前公开市场": "searching the current public market",
+  "无可用参考，调用 AI 估价": "requesting an AI estimate after references are unavailable",
+  "读取数据库计算的经营金额": "reading database-derived totals",
+  "检查订单阶段分布": "checking order stage counts",
+  "整理有依据的经营汇总": "preparing an evidence-based report",
+  "读取新增业务事件": "reading the new business event",
+  "读取各 Agent 决定与工具记录": "reading agent decisions and tool records",
+  "查询关联订单与资金状态": "querying related order and fund records",
+  "检查执行依据与结果完整性": "checking evidence and result completeness",
+  "形成可追溯的审计结论": "preparing a traceable audit conclusion",
+  "读取冲突、订单及证据": "reading conflict evidence",
+  "查询创始人政策与版本": "reading founder policy versions",
+  "按适用政策准备处理方向": "preparing a direction under the applicable policy",
+  "保持暂停并整理创始人处理材料": "keeping the operation paused and preparing founder review"
+});
+
+Object.assign(translations,{"正在处理付款…":"Processing payment…","停滞提醒":"Stalled orders"});
+
+Object.assign(translations,{"系统事件更新":"System event update","系统事件更新 · 未调用 AI":"System event update · no AI call","事件校验未通过":"Event validation failed","读取物业条件与承运安排信息":"reading property conditions and carrier arrangements","核对物业回复并准备后续协调":"checking the property reply and coordinating next steps","准备模拟承运工作单并确认安排":"preparing the simulated carrier handoff and confirming arrangements"});
+
+Object.assign(translations,{"付款agent已确认收到款":"Payment Agent has confirmed receipt"});
+
+Object.assign(translations,{"付款agent已完成结算":"Payment Agent has completed settlement","返回订单":"Back to order"});
+
+Object.assign(translations,{"关闭提示":"Dismiss notification"});
+
+// Manager overview: live Agent board.
+Object.assign(translations,{"Agent 工作状态":"Agent activity","实时 · 每 1.5 秒更新":"Live · refreshes every 1.5 s","暂时无法获取 Agent 状态，正在重试":"Agent status unavailable, retrying",
+"监督 Agent":"Supervision Agent","审核 Agent":"Listing Agent","估价 Agent":"Pricing Agent","推荐 Agent":"Matching Agent","物流 Agent":"Logistics Agent","收款 Agent":"Payment Agent","审计 Agent":"Audit Reporting Agent",
+"照片与资料审核":"Photo and listing review","建议售价与固定总价":"Suggested price and fixed total","解析偏好并筛选家具":"Parses preferences and filters furniture","配送报价与配送状态":"Delivery quotes and status","模拟留置、付款与结算":"Simulated hold, payment and settlement","增量审计与经营汇总":"Incremental audit and business summary",
+"正在介入冲突":"Resolving a conflict","监控中 · 普通任务由调度直接分派，出现冲突时介入":"Monitoring · routine tasks are routed by Dispatch; steps in on conflicts",
+"停滞订单":"Stalled orders","待决策冲突":"Open conflicts","规则拦截":"Rule blocks","规则校验中":"Checking rules","调度 Dispatch":"Dispatch","等待新任务":"waiting for tasks",
+"审计队列":"Audit queue","最近活动":"Recent activity","业务规则":"Business rules",
+"后端启动以来暂无 Agent 活动。在买家或卖家端发起操作后，这里会实时显示。":"No Agent activity since the backend started. Actions from the buyer or seller side will appear here live."});
+Object.assign(translations,{"Agent 运转台":"Agent console","经营数据":"Business data","实时显示各 Agent 正在做什么；今日统计按演示时间计算。":"Live view of what each Agent is doing; today's counts follow the demo clock.","制定政策 · 处理升级冲突":"Sets policy · decides escalated conflicts"});
+Object.assign(translations,{"增量审计新业务事件":"Incremental audit of a new business event"});
+Object.assign(translations,{"监督 Agent 整理的可选方案（仅供参考，不改变将生效的政策）":"Options prepared by the Supervision Agent (for reference; they do not change the policy that takes effect)","批准后生效的政策":"Policy that takes effect on approval","配送额外成本处理":"Extra delivery cost handling","先请求不提高买家固定总价的可行替代方案；无可行方案时保留待取货并升级处理，不启动退款，不绕过验收和结算。":"First request a feasible alternative that does not raise the buyer's fixed total; if none exists, keep the order awaiting pickup and escalate. No refund is started, and acceptance and settlement are never bypassed.","以后同类冲突（承运方要求加价、买家总价已固定）将由监督 Agent 按此政策自动处理，不再升级给你。":"Future conflicts of this kind (carrier asks for more, buyer total already fixed) will be handled automatically by the Supervision Agent under this policy instead of being escalated to you.","处理理由（仅作记录，不会改变规则内容）":"Reason (recorded only; it does not change the rule)","批准政策并结案":"Approve policy and close case","已生效政策：":"Policy in effect: ","处理理由：":"Reason: "});
+Object.assign(translations,{"你支持哪一方？":"Which side do you support?","支持估价 Agent：买家总价不变":"Support the Pricing Agent: buyer total stays unchanged","支持物流 Agent：接受替代方案，平台承担额外成本":"Support the Logistics Agent: accept the alternative, platform covers the extra cost","以后同类冲突：保持原价，请承运方提供不加价的替代方案。":"Future conflicts: keep the price and ask the carrier for an alternative at no extra cost.","以后同类冲突：接受替代方案，额外 $25 记为平台承担（模拟）。":"Future conflicts: accept the alternative; the extra $25 is recorded as covered by the platform (simulated).","接受承运方的替代配送方案；买家固定总价不变，额外成本由平台承担（演示中仅记录，不改变实际分账）；仍需承运方确认，不绕过物业确认、验收和结算。":"Accept the carrier's alternative delivery plan; the buyer's fixed total is unchanged and the platform covers the extra cost (recorded only in this demo; the payout split is unchanged). Carrier confirmation is still required, and property confirmation, acceptance and settlement are never bypassed.","按政策自动处理的冲突":"Conflict handled automatically by policy","接受替代配送方案，额外 $25 由平台承担（模拟记录，不改变实际分账）。":"Alternative delivery accepted; the extra $25 is covered by the platform (simulated; payout split unchanged).","买家总价不变，已请承运方提供不加价的替代方案。":"Buyer total unchanged; the carrier was asked for an alternative at no extra cost."});
+Object.assign(translations,{"支持估价 Agent":"Supports Pricing Agent","支持物流 Agent":"Supports Logistics Agent"});
+Object.assign(translations,{"经营者更新":"Updated by founder"});

@@ -23,13 +23,17 @@ os.environ['UPLOAD_DIR'] = str(ROOT / '.runtime/test-uploads')
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
-from app import database as db
+from app import database as db, review_cache
 
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
+    from app import audit_worker
+    monkeypatch.setattr(audit_worker,'start',lambda:None)
+    review_cache.clear()
     with TestClient(app) as client:
         with db.transaction() as (conn, s):
+            conn.execute('DELETE FROM agent_audit_jobs')
             conn.execute('DELETE FROM settlements')
             conn.execute('DELETE FROM payments')
             conn.execute('DELETE FROM command_receipts')
